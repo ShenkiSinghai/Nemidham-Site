@@ -15,7 +15,7 @@
 window.SITE = {
   name: "Neminath Jinalay",
   nameHindi: "श्री नेमिनाथ जिनालय",
-  place: "Nemidham",
+  place: "Nemidham, Wagholi, Pune",
   tagline: "Daily darshan, abhishek and aarti at Nemidham.",
   timezone: "Asia/Kolkata",
 
@@ -29,7 +29,7 @@ window.SITE = {
   timingsNote: "Timings can change on festival days. Please check Announcements.",
 
   // SAMPLE contact details. Replace with real ones.
-  addressLines: ["Neminath Jinalay, Nemidham", "Add street / area", "Add city, state and PIN code"],
+  addressLines: ["Neminath Jinalay, Nemidham", "Bakroi Road", "Pune, 412207"],
   phone: "",                // e.g. "+91 98765 43210"
   whatsapp: "",             // digits only with country code, e.g. "919876543210"
   email: "",                // e.g. "contact@example.org"
