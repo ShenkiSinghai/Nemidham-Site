@@ -12,7 +12,10 @@ This is a plain website (HTML, CSS, JavaScript). No WordPress, no database, no m
 | `about.html` | History, Bhagwan Neminath, visiting etiquette |
 | `team.html` | Trustees, committee, sevaks |
 | `daan.html` | UPI, QR, bank details |
-| `contact.html` | Address, timings, phone |
+| `visit.html` | How to reach: map, address, directions, contact |
+| `yojana.html` | Yojanayein (bhumi daan, sant shala, murtis, dharmshala) |
+| `calendar.html` | Jain Calendar (kalyanak, parv) |
+| `contact.html` | Old link, forwards to `visit.html` |
 | `js/data.js` | **All the content. This is the file you edit.** |
 | `images/` | Your photos |
 
@@ -56,3 +59,9 @@ The site is built so that all words live in `js/data.js` and `js/main.js`. When 
 - Timings are shown in Indian Standard Time on every visitor's device.
 - The page titles in each `.html` file contain the mandir name. If the name changes, update those too.
 - Test the site on your own phone after publishing.
+
+## Languages
+Hindi opens first. Visitors tap the English button in the menu. Every text in `js/data.js` is written as `{ hi: "...", en: "..." }`. Menu and button words are in `js/i18n.js`.
+
+## Links, map and banner
+In `js/data.js` fill `social` (WhatsApp, Facebook, Instagram, YouTube), `mapQuery` (place name or coordinates) and `phone`. Empty items stay hidden. `BANNER` controls the gold strip on top. `showTimings: false` hides the "Open now" box.

@@ -1,30 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Neminath Jinalay, Nemidham</title>
-<meta name="description" content="Jain mandir at Nemidham. Daily darshan timings, announcements, karyakram, photos and daan details.">
+<meta name="description" content="Jain mandir at Nemidham: yojanayein, karyakram, gallery, daan and how to reach. जैन मंदिर, नेमिधाम।">
 <meta name="theme-color" content="#12203a">
-<meta property="og:title" content="Neminath Jinalay, Nemidham">
-<meta property="og:description" content="Jain mandir at Nemidham. Daily darshan timings, announcements, karyakram, photos and daan details.">
+<meta property="og:title" content="Neminath Jinalay, Nemidham | श्री नेमिनाथ जिनालय, नेमिधाम">
+<meta property="og:description" content="Jain mandir at Nemidham: yojanayein, karyakram, gallery, daan and how to reach. जैन मंदिर, नेमिधाम।">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="home">
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main"></a>
+<div id="site-banner"></div>
 <div id="site-header"></div>
 <main id="main">
-<section class="hero">
-  <div class="wrap hero-grid">
+<section class="hero" id="hero">
+  <div class="wrap hero-grid" id="hero-grid">
     <div>
-      <h1 id="hero-name">Neminath Jinalay</h1>
-      <p class="hindi" id="hero-hindi"></p>
+      <h1 id="hero-name"></h1>
+      <p class="hindi" id="hero-sub"></p>
       <p class="lead" id="hero-lead"></p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="karyakram.html">See karyakram</a>
-        <a class="btn btn-ghost" href="contact.html">Plan your visit</a>
+        <a class="btn btn-primary" href="yojana.html" data-i18n="home.cta1"></a>
+        <a class="btn btn-ghost" href="visit.html" data-i18n="home.cta2"></a>
       </div>
     </div>
     <div id="hero-panel"></div>
@@ -33,35 +34,51 @@
 
 <section class="section">
   <div class="wrap">
-    <div class="section-head"><h2>Announcements</h2></div>
-    <div id="announcements"></div>
+    <div class="section-head"><h2 data-i18n="home.yojana"></h2><a class="more" href="yojana.html" data-i18n="home.yojana_all"></a></div>
+    <div id="home-yojana"></div>
   </div>
 </section>
 
 <section class="section alt">
   <div class="wrap">
-    <div class="section-head"><h2>Upcoming karyakram</h2><a class="more" href="karyakram.html">All karyakram</a></div>
+    <div class="section-head"><h2 data-i18n="home.notices"></h2></div>
+    <div id="announcements"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head"><h2 data-i18n="home.events"></h2><a class="more" href="karyakram.html" data-i18n="home.events_all"></a></div>
     <div id="home-events"></div>
   </div>
 </section>
 
-<section class="section" id="home-gallery-section">
+<section class="section alt" id="home-gallery-section">
   <div class="wrap">
-    <div class="section-head"><h2>Latest photos: <span id="home-gallery-title"></span></h2><a class="more" href="gallery.html">All albums</a></div>
+    <div class="section-head"><h2><span data-i18n="home.photos"></span>: <span id="home-gallery-title"></span></h2><a class="more" href="gallery.html" data-i18n="home.photos_all"></a></div>
     <div id="home-gallery"></div>
+  </div>
+</section>
+
+<section class="section" id="home-connect-section" hidden>
+  <div class="wrap">
+    <div class="section-head"><h2 data-i18n="home.connect"></h2></div>
+    <p class="measure" data-i18n="home.connect_text"></p>
+    <div id="home-connect"></div>
   </div>
 </section>
 
 <section class="section alt">
   <div class="wrap cards">
-    <div class="card"><h2>Give daan</h2><p>Support daily pooja and the upkeep of the mandir by UPI, bank transfer or in person.</p><a class="btn btn-line" href="daan.html">How to give daan</a></div>
-    <div class="card"><h2>Visit the mandir</h2><p>Find the address, daily timings and how to reach us.</p><a class="btn btn-line" href="contact.html">Address and contact</a></div>
+    <div class="card"><h2 data-i18n="home.daan_h"></h2><p data-i18n="home.daan_p"></p><a class="btn btn-line" href="daan.html" data-i18n="home.daan_btn"></a></div>
+    <div class="card"><h2 data-i18n="home.visit_h"></h2><p data-i18n="home.visit_p"></p><a class="btn btn-line" href="visit.html" data-i18n="home.visit_btn"></a></div>
   </div>
 </section>
 </main>
 <div id="site-footer"></div>
-<noscript><p style="padding:20px;text-align:center">Please turn on JavaScript to see this page.</p></noscript>
+<noscript><p style="padding:20px;text-align:center">कृपया JavaScript चालू करें। / Please turn on JavaScript to see this page.</p></noscript>
 <script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
