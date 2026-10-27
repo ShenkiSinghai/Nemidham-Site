@@ -16,6 +16,9 @@ This is a plain website (HTML, CSS, JavaScript). No WordPress, no database, no m
 | `yojana.html` | Yojanayein (bhumi daan, sant shala, murtis, dharmshala) |
 | `calendar.html` | Jain Calendar (kalyanak, parv) |
 | `contact.html` | Old link, forwards to `visit.html` |
+| `gallery-helper.html` | Helper: album ka code banata hai (copy-paste ke liye) |
+| `check.html` | Check page: `data.js` ki galtiyan dhoondhta hai |
+| `images/jain-symbol.svg` | Jain chinh (header logo). Apna logo ho to `SITE.logo` mein naam badlein |
 | `js/data.js` | **All the content. This is the file you edit.** |
 | `images/` | Your photos |
 
@@ -48,7 +51,12 @@ A name like `neminathjinalay.org` costs roughly 800 to 1,200 rupees a year from 
 
 - **Change text, add a karyakram, add an announcement:** open `js/data.js` on GitHub, click the pencil icon, edit, click **Commit changes**. The site updates in a minute or two.
 - **Add photos:** upload them into `images/gallery/`, then add them to an album in `data.js`. Resize photos to about 1600 pixels wide first so pages load fast on phones.
-- **Add a YouTube video:** in the album, add `{ youtube: "VIDEO_ID", title: "Name" }`. The ID is the part after `v=` in the video link.
+- **Gallery:** do main albums, Photos and Videos. Har ek ke andar occasion albums. Naya album: `gallery-helper.html` kholein, details bharein, jo code bane use `data.js` ke `GALLERY` mein paste karein.
+  - Photo album, tarika 1: photos `images/gallery/<album>/` mein daalein aur `files: [...]` mein naam likhein.
+  - Photo album, tarika 2: `auto: true` likhein, folder ki saari photos khud dikhengi (GitHub API se, `SITE.github` bhara ho).
+  - Video: `{ youtube: "link ya ID", title: {...} }`. Single video, playlist ya channel (`UC...` ID) sab page par hi chalte hain. Chhoti video file ho to `{ file: "naam.mp4" }`.
+- **Hide / remove:** kisi bhi item mein `hidden: true` likhein, wo site se hat jaata hai, delete nahi hota.
+- **Check:** badlav ke baad `check.html` kholein; wo galti aur chhoote SAMPLE batata hai. Dono helper pages search mein nahi aate.
 - **Team photos:** upload to `images/team/` and put the file name in `data.js`.
 - **UPI QR picture:** upload as `images/upi-qr.png` and set `qrImage: "images/upi-qr.png"`.
 
@@ -64,4 +72,4 @@ The site is built so that all words live in `js/data.js` and `js/main.js`. When 
 Hindi opens first. Visitors tap the English button in the menu. Every text in `js/data.js` is written as `{ hi: "...", en: "..." }`. Menu and button words are in `js/i18n.js`.
 
 ## Links, map and banner
-In `js/data.js` fill `social` (WhatsApp, Facebook, Instagram, YouTube), `mapQuery` (place name or coordinates) and `phone`. Empty items stay hidden. `BANNER` controls the gold strip on top. `showTimings: false` hides the "Open now" box.
+In `js/data.js` fill `LINKS` (WhatsApp, Facebook, Instagram, YouTube, section 0 at the top), `mapEmbed` (Google Maps, Share, Embed a map, src link), `mapLink` and `phone`. Empty items stay hidden. `BANNER` controls the gold strip on top. `showTimings: false` hides the "Open now" box.

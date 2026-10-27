@@ -17,9 +17,19 @@
    - English: write Hindi words in English letters (Daan, Karyakram, Aarti).
    ===================================================================== */
 
+/* ---------- 0. YOUR LINKS: WhatsApp, Facebook, Instagram, YouTube ----------
+   Paste the full link between the quote marks. Leave "" to hide that button.
+   The buttons then appear on Home, on the How to reach page and in the footer. */
+window.LINKS = {
+  whatsappGroup: "",   // WhatsApp group invite link, e.g. "https://chat.whatsapp.com/...."
+  facebook: "",        // e.g. "https://www.facebook.com/yourpage"
+  instagram: "",       // e.g. "https://www.instagram.com/yourpage"
+  youtube: ""          // e.g. "https://www.youtube.com/@yourchannel"
+};
+
 /* ---------- 1. Basic details ---------- */
 window.SITE = {
-  name:  { hi: "श्री नेमिनाथ जिनालय", en: "Neminath Jinalay" },
+  name:  { hi: "श्री 1008 नेमिनाथ जिनालय", en: "Shri 1008 Neminath Jinalay" },
   place: { hi: "नेमिधाम", en: "Nemidham" },
   tagline: {
     hi: "नेमिधाम में रोज़ दर्शन, अभिषेक और आरती। आपके सहयोग से मंदिर का विकास आगे बढ़ रहा है।",
@@ -38,7 +48,7 @@ window.SITE = {
   },
 
   addressLines: [
-    { hi: "श्री नेमिनाथ जिनालय, नेमिधाम", en: "Neminath Jinalay, Nemidham" },
+    { hi: "श्री 1008 नेमिनाथ जिनालय, नेमिधाम", en: "Shri 1008 Neminath Jinalay, Nemidham" },
     { hi: "SAMPLE: गली / क्षेत्र लिखें", en: "SAMPLE: Add street / area" },
     { hi: "SAMPLE: शहर, राज्य और पिन कोड लिखें", en: "SAMPLE: Add city, state and PIN code" }
   ],
@@ -52,16 +62,22 @@ window.SITE = {
   //  mapLink / mapEmbed: optional. Paste your own Google Maps share link /
   //            embed src if you want to override the automatic ones.
   mapQuery: "",
-  mapLink: "",
-  mapEmbed: "",
+  mapLink: "https://www.google.com/maps/search/?api=1&query=18.587649567124686,74.00815587372229",
+  mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.6979918312923!2d74.00815587372229!3d18.587649567124686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3005211eeaf%3A0x258f5a756ded4252!2sShri%201008%20Neminath%20Jinalay%2C%20Nemidham!5e0!3m2!1sen!2sin!4v1793055390325!5m2!1sen!2sin",
 
-  // Social links. Paste the full link, or leave "" to hide that button.
-  social: {
-    whatsappGroup: "",   // e.g. "https://chat.whatsapp.com/...."
-    facebook: "",        // e.g. "https://www.facebook.com/yourpage"
-    instagram: "",       // e.g. "https://www.instagram.com/yourpage"
-    youtube: ""          // e.g. "https://www.youtube.com/@yourchannel"
-  },
+  // Social links: fill them in section 0 at the top of this file.
+  social: window.LINKS,
+
+  // Small Jain symbol shown in the menu. To remove it, set logo: "" (the letter "ने" shows instead).
+  // When the mandir has its own logo, upload it to images/ and write its path here.
+  logo: "images/jain-symbol.svg",
+
+  // Where this site lives on GitHub. Only needed for the automatic photo list in Gallery albums.
+  github: { user: "shenkisinghai", repo: "Nemidham" },
+
+  // Optional: your YouTube channel ID (starts with UC, find it in YouTube Studio > Settings > Channel > Advanced).
+  // All the channel's videos then play inside the site's Videos gallery, and new uploads appear by themselves.
+  youtubeChannelId: "",
 
   // Optional big photo behind the top of the Home page, e.g. "images/hero.jpg".
   heroImage: ""
@@ -172,6 +188,7 @@ window.YOJANA = [
 
 /* ---------- 4. Announcements (shown on Home) ---------- */
 // pinned: true keeps an item at the top.
+// hidden: true hides an item without deleting it.
 window.ANNOUNCEMENTS = [
   {
     date: "2026-10-26", pinned: true,
@@ -195,6 +212,7 @@ window.ANNOUNCEMENTS = [
 // date: "YYYY-MM-DD". endDate is optional (for events of many days).
 // time can be plain text like "8:00 AM", or { hi: "सुबह 8:00", en: "8:00 AM" }.
 // Past events move to the "Past" tab by themselves.
+// To remove a karyakram: delete its whole { ... }, block, or add  hidden: true,  inside it.
 window.EVENTS = [
   {
     date: "2026-11-15", time: { hi: "सुबह 8:00", en: "8:00 AM" },
@@ -222,6 +240,7 @@ window.EVENTS = [
 /* ---------- 6. Jain Calendar ---------- */
 // type: "kalyanak", "parv", "tithi" or "other".
 // Please copy these dates from a calendar / panchang you trust.
+// hidden: true hides an item without deleting it.
 window.CALENDAR = [
   {
     date: "2026-11-08", type: "parv",
@@ -240,35 +259,59 @@ window.CALENDAR = [
   }
 ];
 
-/* ---------- 7. Gallery albums ---------- */
-// Put photo files in images/gallery/, then list them here.
-// cover is optional. Without it, the first photo is the cover.
-// Videos: { youtube: "VIDEO_ID", title: {...} } (the ID is after v= in the link),
-// or { src: "images/gallery/aarti.mp4", title: {...} } for a file you upload.
-window.ALBUMS = [
-  {
-    id: "sample-aarti", date: "2026-10-01",
-    title: { hi: "SAMPLE: शाम की आरती", en: "SAMPLE: Evening Aarti" },
-    description: { hi: "इन नमूना फोटो की जगह असली फोटो लगाएं।", en: "Replace these sample pictures with real photos." },
-    photos: [
-      { src: "images/gallery/sample-1.svg", caption: { hi: "नमूना फोटो 1", en: "Sample photo 1" } },
-      { src: "images/gallery/sample-2.svg", caption: { hi: "नमूना फोटो 2", en: "Sample photo 2" } },
-      { src: "images/gallery/sample-3.svg", caption: { hi: "नमूना फोटो 3", en: "Sample photo 3" } },
-      { src: "images/gallery/sample-4.svg", caption: { hi: "नमूना फोटो 4", en: "Sample photo 4" } }
-    ],
-    videos: []
-  },
-  {
-    id: "sample-utsav", date: "2026-09-10",
-    title: { hi: "SAMPLE: वार्षिक उत्सव", en: "SAMPLE: Annual Utsav" },
-    description: { hi: "", en: "" },
-    photos: [
-      { src: "images/gallery/sample-5.svg", caption: { hi: "नमूना फोटो 5", en: "Sample photo 5" } },
-      { src: "images/gallery/sample-6.svg", caption: { hi: "नमूना फोटो 6", en: "Sample photo 6" } }
-    ],
-    videos: []
-  }
-];
+/* ---------- 7. Gallery ---------- */
+// The Gallery has two main albums: photos and videos. Inside each, you make albums by occasion.
+//
+// TO MAKE A NEW PHOTO ALBUM (3 steps)
+//  1. On GitHub, upload your photos into a new folder, e.g. images/gallery/diwali-2026/
+//  2. Copy one whole { ... }, block below, paste it right after, and change id, date, title, folder.
+//  3. Choose how photos are listed:
+//       files: [ "1.jpg", "2.jpg" ]   write the photo names yourself (always works), or
+//       delete the files line         then the site reads the folder by itself, you only upload photos.
+//     The page gallery-helper.html writes the block for you.
+//  hidden: true  hides an album without deleting it.
+//  cover: "images/gallery/diwali-2026/1.jpg"  is the picture shown on the album card (optional).
+//
+// TO ADD VIDEOS to a video album, list them in items:
+//   { youtube: "https://www.youtube.com/watch?v=XXXXXXXXXXX", title: { hi: "", en: "" } }  a YouTube video or playlist link.
+//   It plays inside the website, nobody has to go to YouTube.
+//   { file: "video1.mp4", title: {...} }  a small video file uploaded into the album's folder (about 25 MB at most).
+window.GALLERY = {
+  photos: [
+    {
+      id: "sample-aarti", date: "2026-10-01",
+      title: { hi: "SAMPLE: शाम की आरती", en: "SAMPLE: Evening Aarti" },
+      description: { hi: "इन नमूना फोटो की जगह असली फोटो लगाएं।", en: "Replace these sample pictures with real photos." },
+      folder: "images/gallery",
+      files: [
+        { file: "sample-1.svg", caption: { hi: "नमूना फोटो 1", en: "Sample photo 1" } },
+        { file: "sample-2.svg", caption: { hi: "नमूना फोटो 2", en: "Sample photo 2" } },
+        { file: "sample-3.svg", caption: { hi: "नमूना फोटो 3", en: "Sample photo 3" } },
+        { file: "sample-4.svg", caption: { hi: "नमूना फोटो 4", en: "Sample photo 4" } }
+      ]
+    },
+    {
+      id: "sample-utsav", date: "2026-09-10",
+      title: { hi: "SAMPLE: वार्षिक उत्सव", en: "SAMPLE: Annual Utsav" },
+      description: { hi: "", en: "" },
+      folder: "images/gallery",
+      files: [
+        { file: "sample-5.svg", caption: { hi: "नमूना फोटो 5", en: "Sample photo 5" } },
+        { file: "sample-6.svg", caption: { hi: "नमूना फोटो 6", en: "Sample photo 6" } }
+      ]
+    }
+  ],
+  videos: [
+    {
+      id: "sample-videos", date: "2026-10-01",
+      title: { hi: "SAMPLE: आरती के वीडियो", en: "SAMPLE: Aarti videos" },
+      description: { hi: "यहाँ YouTube वीडियो का लिंक डालें।", en: "Paste your YouTube video links here." },
+      items: [
+        // { youtube: "https://www.youtube.com/watch?v=XXXXXXXXXXX", title: { hi: "शाम की आरती", en: "Evening Aarti" } }
+      ]
+    }
+  ]
+};
 
 /* ---------- 8. Team ---------- */
 // photo is optional, e.g. "images/team/name.jpg". Without it, initials show.
@@ -306,8 +349,8 @@ window.ABOUT = [
     title: { hi: "मंदिर के बारे में", en: "About the mandir" },
     paragraphs: [
       {
-        hi: "श्री नेमिनाथ जिनालय, नेमिधाम भगवान नेमिनाथ को समर्पित जैन मंदिर है।",
-        en: "Neminath Jinalay, Nemidham is a Jain mandir dedicated to Bhagwan Neminath."
+        hi: "श्री 1008 नेमिनाथ जिनालय, नेमिधाम भगवान नेमिनाथ को समर्पित जैन मंदिर है।",
+        en: "Shri 1008 Neminath Jinalay, Nemidham is a Jain mandir dedicated to Bhagwan Neminath."
       },
       {
         hi: "मंदिर बना हुआ है और अभी धार्मिक कार्य के लिए 3 साल के लिए दान की गई भूमि पर है। मंदिर की अपनी भूमि के लिए भूमि दान लिया जा रहा है और विकास जारी है।",
@@ -468,3 +511,10 @@ window.TRUST = {
     en: ""    // e.g. "A receipt is given by the mandir office."
   }
 };
+
+/* Masik Dravya Daan: list of donors (optional). Delete all rows to hide the table.
+   Only add a name with the person's permission. */
+window.DRAVYA = [
+  { date: "2026-11-01", name: "SAMPLE Name" },
+  { date: "2026-10-01", name: "SAMPLE Name" }
+];

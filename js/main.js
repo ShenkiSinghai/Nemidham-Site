@@ -89,6 +89,7 @@
     return n.split(/\s+/).slice(0, 2).map(function (w) { return Array.from(w)[0] || ""; }).join("").toUpperCase();
   }
   function telHref(p) { return "tel:" + String(p).replace(/[^\d+]/g, ""); }
+  function vis(list) { return (list || []).filter(function (x) { return !x.hidden; }); }
   function showTimings() { return S.showTimings !== false && S.timings; }
 
   var SOCIAL = [
@@ -145,7 +146,7 @@
   function buildHeader() {
     put("site-header",
       '<header class="site"><div class="wrap bar">' +
-      '<a class="brand" href="index.html"><span class="mark" aria-hidden="true">ने</span>' +
+      '<a class="brand" href="index.html">' + (S.logo ? '<img class="mark" src="' + esc(S.logo) + '" alt="">' : '<span class="mark" aria-hidden="true">ने</span>') + '' +
       '<span class="brand-text"><strong>' + esc(L(S.name)) + "</strong><small>" + esc(L(S.place)) + "</small></span></a>" +
       '<nav id="nav" aria-label="' + esc(t("menu")) + '"><ul>' + NAV.map(navItem).join("") + "</ul></nav>" +
       '<div class="bar-right"><button class="lang" type="button" lang="' + esc(t("lang.code")) + '" aria-label="' + esc(t("lang.aria")) + '">' + esc(t("lang.btn")) + "</button>" +
@@ -184,14 +185,25 @@
     }
   }
 
+  function ensureTop() {
+    if (document.getElementById("site-top")) return;
+    var b = document.getElementById("site-banner"), h = document.getElementById("site-header");
+    if (!b || !h) return;
+    var top = document.createElement("div");
+    top.id = "site-top";
+    b.parentNode.insertBefore(top, b);
+    top.appendChild(b);
+    top.appendChild(h);
+  }
+
   function buildBanner() {
     var host = document.getElementById("site-banner");
     if (!host) return;
     var B = window.BANNER || {}, dismissed = false;
     try { dismissed = sessionStorage.getItem("nj-banner") === "1"; } catch (e) {}
     if (!B.enabled || dismissed || !L(B.text)) { host.innerHTML = ""; return; }
-    host.innerHTML = '<div class="topbar"><div class="wrap topbar-in"><p>' + esc(L(B.text)) +
-      (B.link ? ' <a href="' + esc(B.link) + '">' + esc(L(B.linkText) || t("banner.more")) + "</a>" : "") +
+    host.innerHTML = '<div class="topbar"><div class="wrap topbar-in"><p><span class="tb-text">' + esc(L(B.text)) + "</span>" +
+      (B.link ? '<a href="' + esc(B.link) + '">' + esc(L(B.linkText) || t("banner.more")) + "</a>" : "") +
       '</p><button type="button" class="topbar-x" aria-label="' + esc(t("lb.close")) + '">&times;</button></div></div>';
     $(".topbar-x", host).addEventListener("click", function () {
       try { sessionStorage.setItem("nj-banner", "1"); } catch (e) {}
@@ -201,25 +213,16 @@
 
   /* ---------- footer ---------- */
   function buildFooter() {
-    var pages = [["index.html", "nav.home"], ["yojana.html", "nav.yojana"], ["karyakram.html", "nav.karyakram_all"], ["calendar.html", "nav.calendar"],
-      ["gallery.html", "nav.gallery"], ["about.html", "nav.about_mandir"], ["team.html", "nav.team"], ["visit.html", "nav.visit"], ["daan.html", "nav.daan"]];
-    var addr = (L(S.addressLines) || []).map(function (a) { return esc(L(a)); }).join("<br>");
-    var contact = "";
-    if (S.phone) contact += '<li><a href="' + telHref(S.phone) + '">' + esc(S.phone) + "</a></li>";
-    if (S.email) contact += '<li><a href="mailto:' + esc(S.email) + '">' + esc(S.email) + "</a></li>";
-    var soc = socialList().map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a></li>"; }).join("");
-    var T = S.timings || {};
-    var timings = showTimings()
-      ? "<div><h2>" + esc(t("f.timings")) + "</h2><ul><li>" + esc(t("tm.open")) + ": " + fmtTime(T.open) + "</li><li>" + esc(t("tm.abhishek")) + ": " + fmtTime(T.abhishek) +
-        "</li><li>" + esc(t("tm.aarti")) + ": " + fmtTime(T.aarti) + "</li><li>" + esc(t("tm.close")) + ": " + fmtTime(T.close) + "</li></ul></div>"
-      : "";
+    var nameNow = String(L(S.name));
+    var addr = (L(S.addressLines) || []).filter(function (a) { return String(L(a)).indexOf(nameNow) !== 0; }).map(function (a) { return esc(L(a)); }).join("<br>");
+    var links = "";
+    if (S.phone) links += '<li><a href="' + telHref(S.phone) + '">' + esc(S.phone) + "</a></li>";
+    if (S.email) links += '<li><a href="mailto:' + esc(S.email) + '">' + esc(S.email) + "</a></li>";
+    links += socialList().map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a></li>"; }).join("");
     put("site-footer",
       '<footer class="site"><div class="wrap"><div class="foot-grid">' +
-      '<div><p class="foot-name">' + esc(L(S.name)) + '</p><p class="foot-hindi">' + esc(lang === "hi" ? S.name.en : S.name.hi) + "</p><p>" + addr + "</p>" +
-      (contact ? "<ul>" + contact + "</ul>" : "") + "</div>" +
-      timings +
-      "<div><h2>" + esc(t("f.pages")) + "</h2><ul>" + pages.map(function (p) { return '<li><a href="' + p[0] + '">' + esc(t(p[1])) + "</a></li>"; }).join("") + "</ul>" +
-      (soc ? "<h2 style=\"margin-top:1.2em\">" + esc(t("home.connect")) + "</h2><ul>" + soc + "</ul>" : "") + "</div></div>" +
+      '<div><p class="foot-name">' + esc(L(S.name)) + "</p><p class=\"foot-addr\">" + addr + "</p></div>" +
+      (links ? '<div><ul class="foot-links">' + links + "</ul></div>" : "") + "</div>" +
       '<p class="legal">' + esc(t("f.legal", { year: new Date().getFullYear(), name: L(S.name), place: L(S.place) })) + "</p></div></footer>");
   }
 
@@ -236,7 +239,6 @@
   function renderHero() {
     var h1 = document.getElementById("hero-name"); if (!h1) return;
     h1.textContent = L(S.name);
-    put("hero-sub", esc(lang === "hi" ? S.name.en : S.name.hi));
     var lead = document.getElementById("hero-lead"); if (lead) lead.textContent = L(S.tagline);
     var hero = document.getElementById("hero");
     if (hero && S.heroImage) {
@@ -279,7 +281,7 @@
 
   /* ---------- announcements ---------- */
   function renderAnnouncements(limit) {
-    var list = (window.ANNOUNCEMENTS || []).slice().sort(function (a, b) {
+    var list = vis(window.ANNOUNCEMENTS).slice().sort(function (a, b) {
       if (!!b.pinned !== !!a.pinned) return b.pinned ? 1 : -1;
       return a.date < b.date ? 1 : -1;
     });
@@ -308,7 +310,7 @@
   }
   function renderYojanaPage() {
     var host = document.getElementById("yojana-list"); if (!host) return;
-    var all = window.YOJANA || [];
+    var all = vis(window.YOJANA);
     var now = all.filter(function (y) { return y.status !== "soon"; });
     var later = all.filter(function (y) { return y.status === "soon"; });
     host.innerHTML = '<p class="measure">' + esc(t("y.intro")) + "</p>" +
@@ -316,7 +318,7 @@
       (later.length ? '<section><h2>' + esc(t("y.later")) + '</h2><div class="ylist">' + later.map(function (y) { return yojanaCard(y); }).join("") + "</div></section>" : "");
   }
   function renderHomeYojana() {
-    var all = window.YOJANA || [];
+    var all = vis(window.YOJANA);
     put("home-yojana", all.length ? '<div class="cards three">' + all.map(function (y) { return yojanaCard(y, true); }).join("") + "</div>" : "");
   }
 
@@ -349,12 +351,12 @@
     show("upcoming");
   }
   function renderHomeEvents() {
-    var up = splitByDate(window.EVENTS || [], "endDate").up.slice(0, 3);
+    var up = splitByDate(vis(window.EVENTS), "endDate").up.slice(0, 3);
     put("home-events", up.length ? '<div class="events">' + up.map(function (e) { return eventCard(e, false); }).join("") + "</div>" : '<p class="empty">' + esc(t("empty.events")) + "</p>");
   }
   function renderKaryakram() {
     var host = document.getElementById("events"); if (!host) return;
-    var sp = splitByDate(window.EVENTS || [], "endDate");
+    var sp = splitByDate(vis(window.EVENTS), "endDate");
     host.innerHTML = '<p><a class="more" href="calendar.html">' + esc(t("nav.calendar")) + '</a></p>' + tabsHtml() + '<div id="events-list" aria-live="polite"></div>';
     var list = $("#events-list", host);
     wireTabs(host, function (which) {
@@ -371,7 +373,7 @@
   }
   function renderCalendar() {
     var host = document.getElementById("calendar"); if (!host) return;
-    var sp = splitByDate(window.CALENDAR || [], "date");
+    var sp = splitByDate(vis(window.CALENDAR), "date");
     host.innerHTML = tabsHtml() + '<div id="cal-list" aria-live="polite"></div><p class="fine">' + esc(t("cal.note")) + "</p>";
     var list = $("#cal-list", host);
     wireTabs(host, function (which) {
@@ -382,21 +384,98 @@
   }
 
   /* ---------- gallery ---------- */
-  function albums() { return (window.ALBUMS || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; }); }
-  function cover(a) { return a.cover || (a.photos && a.photos[0] && a.photos[0].src) || ""; }
-  function countText(a) {
-    var p = (a.photos || []).length, v = (a.videos || []).length, out = [];
-    if (p) out.push(t("g.photos", { n: p }));
-    if (v) out.push(t("g.videos", { n: v }));
-    return out.join(", ") || t("g.soon");
+  var IMG_RE = /\.(jpe?g|png|gif|webp|avif|svg)$/i, VID_RE = /\.(mp4|webm|ogv|m4v|mov)$/i;
+
+  function galleryList(kind) {
+    var G = window.GALLERY || {};
+    return vis(G[kind]).slice().sort(function (a, b) { return (a.date || "") < (b.date || "") ? 1 : -1; });
+  }
+  function fileUrl(folder, name) {
+    var base = String(folder || "").replace(/^\/+|\/+$/g, "");
+    var f = String(name).split("/").map(encodeURIComponent).join("/");
+    return (base ? base.split("/").map(encodeURIComponent).join("/") + "/" : "") + f;
+  }
+  function ghInfo() {
+    var g = S.github || {};
+    if (g.user && g.repo) return g;
+    var mt = location.hostname.match(/^([^.]+)\.github\.io$/i);
+    if (!mt) return null;
+    var seg = location.pathname.split("/").filter(Boolean)[0];
+    return { user: mt[1], repo: seg && !/\.html?$/i.test(seg) ? seg : mt[1] + ".github.io" };
+  }
+  /* The site cannot see inside a folder by itself, so it asks GitHub for the file names. */
+  function listFolder(folder, cb) {
+    var key = "nj-gh:" + folder;
+    try { var c = sessionStorage.getItem(key); if (c) { var o = JSON.parse(c); if (Date.now() - o.t < 600000) { cb(null, o.names); return; } } } catch (e) {}
+    var g = ghInfo();
+    if (!g || !window.fetch) { cb("nogithub"); return; }
+    var url = "https://api.github.com/repos/" + encodeURIComponent(g.user) + "/" + encodeURIComponent(g.repo) + "/contents/" +
+      String(folder).replace(/^\/+|\/+$/g, "").split("/").map(encodeURIComponent).join("/");
+    fetch(url, { headers: { Accept: "application/vnd.github+json" } }).then(function (r) {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    }).then(function (list) {
+      var names = list.filter(function (x) { return x.type === "file"; }).map(function (x) { return x.name; })
+        .sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); });
+      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), names: names })); } catch (e) {}
+      cb(null, names);
+    }).catch(function (e) { cb(String(e)); });
+  }
+  function norm(f) { return typeof f === "string" ? { file: f } : f; }
+  function usesAuto(a, hasExplicit) { return a.auto === true || (!hasExplicit && a.auto !== false && !!a.folder); }
+
+  /* cb(err, [{src, caption}]) */
+  function albumPhotos(a, cb) {
+    var explicit = (a.files || []).map(norm).filter(function (f) { return f.file; });
+    var out = explicit.map(function (f) { return { src: fileUrl(a.folder, f.file), caption: f.caption, _n: f.file }; });
+    if (!usesAuto(a, explicit.length)) { cb(null, out); return; }
+    listFolder(a.folder, function (err, names) {
+      if (err) { cb(out.length ? null : err, out); return; }
+      var have = {}; explicit.forEach(function (f) { have[f.file] = true; });
+      names.filter(function (n) { return IMG_RE.test(n) && !have[n]; }).forEach(function (n) { out.push({ src: fileUrl(a.folder, n), caption: "" }); });
+      cb(null, out);
+    });
+  }
+  /* cb(err, [{youtube|src, title}]) */
+  function albumVideos(a, cb) {
+    var items = (a.items || []).map(function (v) {
+      if (v.file) return { src: fileUrl(a.folder, v.file), title: v.title, _n: v.file };
+      return v;
+    });
+    if (!a.folder || !usesAuto(a, items.length)) { cb(null, items); return; }
+    listFolder(a.folder, function (err, names) {
+      if (err) { cb(items.length ? null : err, items); return; }
+      var have = {}; items.forEach(function (v) { if (v._n) have[v._n] = true; });
+      names.filter(function (n) { return VID_RE.test(n) && !have[n]; }).forEach(function (n) { items.push({ src: fileUrl(a.folder, n), title: "" }); });
+      cb(null, items);
+    });
+  }
+
+  function ytEmbed(v) {
+    v = String(v || "").trim();
+    var list = (v.match(/[?&]list=([\w-]+)/) || [])[1];
+    var id = (v.match(/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/) || [])[1];
+    if (!id && /^[\w-]{11}$/.test(v)) id = v;
+    var base = "https://www.youtube-nocookie.com/embed/";
+    if (id) return base + id + (list ? "?list=" + list : "");
+    if (list) return base + "videoseries?list=" + list;
+    if (/^UC[\w-]{22}$/.test(v)) return base + "videoseries?list=UU" + v.slice(2);
+    if (/^(PL|UU|OL|FL|RD)[\w-]+$/.test(v)) return base + "videoseries?list=" + v;
+    return "";
+  }
+  function ytId(v) {
+    var id = (String(v || "").match(/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/) || [])[1];
+    return id || (/^[\w-]{11}$/.test(String(v || "").trim()) ? String(v).trim() : "");
   }
   function videoBlock(v) {
-    var ttl = L(v.title) || t("g.videos", { n: 1 });
-    var inner = v.youtube
-      ? '<iframe src="https://www.youtube-nocookie.com/embed/' + esc(v.youtube) + '" title="' + esc(ttl) + '" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>'
-      : '<video controls preload="metadata" src="' + esc(v.src) + '"></video>';
+    var ttl = L(v.title) || t("g.videos_main");
+    var emb = v.youtube ? ytEmbed(v.youtube) : "";
+    var inner = emb
+      ? '<iframe src="' + esc(emb) + '" title="' + esc(ttl) + '" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>'
+      : (v.src ? '<video controls preload="metadata" playsinline src="' + esc(v.src) + '"></video>' : "");
     return '<div><div class="video">' + inner + "</div>" + (L(v.title) ? '<p class="vcap">' + esc(L(v.title)) + "</p>" : "") + "</div>";
   }
+
   function openLightbox(photos, start) {
     var idx = start, dlg = document.createElement("dialog");
     dlg.className = "lightbox";
@@ -422,51 +501,110 @@
     draw();
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
   }
+
+  function albumCover(a, kind) {
+    if (a.cover) return a.cover;
+    if (kind === "photos") {
+      var f = (a.files || []).map(norm)[0];
+      return f && f.file ? fileUrl(a.folder, f.file) : "";
+    }
+    var y = (a.items || []).filter(function (v) { return v.youtube && ytId(v.youtube); })[0];
+    return y ? "https://i.ytimg.com/vi/" + ytId(y.youtube) + "/hqdefault.jpg" : "";
+  }
+  function countText(a, kind) {
+    if (kind === "photos") { var n = (a.files || []).length; return n ? t("g.photos", { n: n }) : ""; }
+    var v = (a.items || []).length; return v ? t("g.videos", { n: v }) : "";
+  }
+  function thumbHtml(src) { return src ? '<img class="thumb" loading="lazy" alt="" src="' + esc(src) + '" onerror="this.removeAttribute(\'src\')">' : '<span class="thumb"></span>'; }
+  function setHead(title, lead) {
+    var h1 = $(".page-head h1"), p = $(".page-head p");
+    if (h1) h1.textContent = title;
+    if (p) p.textContent = lead;
+    document.title = title + " · " + L(S.name) + ", " + L(S.place);
+  }
+
+  function channelBlock() {
+    var cid = String(S.youtubeChannelId || "").trim();
+    if (!/^UC[\w-]{22}$/.test(cid)) return "";
+    return '<section class="chan"><h2>' + esc(t("g.channel")) + '</h2><div class="video"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UU' + esc(cid.slice(2)) +
+      '" title="' + esc(t("g.channel")) + '" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div></section>';
+  }
+
   function renderGallery() {
     var host = document.getElementById("gallery"); if (!host) return;
-    var id = null;
-    try { id = new URLSearchParams(location.search).get("album"); } catch (e) {}
-    var list = albums();
-    var album = id ? list.filter(function (a) { return a.id === id; })[0] : null;
-    if (!album) {
-      host.innerHTML = list.length
-        ? '<div class="albums">' + list.map(function (a) {
-          var c = cover(a);
-          return '<a class="album" href="gallery.html?album=' + encodeURIComponent(a.id) + '">' +
-            (c ? '<img class="thumb" loading="lazy" alt="" src="' + esc(c) + '">' : '<span class="thumb"></span>') +
-            '<div class="info"><h3>' + esc(L(a.title)) + '</h3><p class="meta">' + esc(longDate(a.date)) + " &middot; " + esc(countText(a)) + "</p></div></a>";
-        }).join("") + "</div>"
-        : '<p class="empty">' + esc(t("empty.albums")) + "</p>";
+    var type = null, id = null;
+    try { var qs = new URLSearchParams(location.search); type = qs.get("type"); id = qs.get("album"); } catch (e) {}
+    if (type !== "photos" && type !== "videos") {
+      type = null;
+      if (id) { type = galleryList("photos").some(function (a) { return a.id === id; }) ? "photos" : (galleryList("videos").some(function (a) { return a.id === id; }) ? "videos" : null); }
+    }
+
+    /* level 1: the two main albums */
+    if (!type) {
+      var ph = galleryList("photos"), vd = galleryList("videos");
+      function kindCard(kind, list) {
+        var first = list.filter(function (a) { return albumCover(a, kind); })[0];
+        return '<a class="album kind" href="gallery.html?type=' + kind + '">' + thumbHtml(first ? albumCover(first, kind) : "") +
+          '<div class="info"><h3>' + esc(t("g." + kind + "_main")) + '</h3><p class="meta">' + esc(t("g." + kind + "_sub")) + " &middot; " + esc(t("g.n_albums", { n: list.length })) + "</p></div></a>";
+      }
+      host.innerHTML = '<div class="albums two">' + kindCard("photos", ph) + kindCard("videos", vd) + "</div>" + channelBlock();
       return;
     }
-    document.title = L(album.title) + " · " + t("p.gallery.h1") + " · " + L(S.name) + ", " + L(S.place);
-    var h1 = $(".page-head h1"); if (h1) h1.textContent = L(album.title);
-    var lead = $(".page-head p"); if (lead) lead.textContent = [longDate(album.date), L(album.description)].filter(Boolean).join(". ");
-    var photos = album.photos || [];
-    host.innerHTML = '<a class="back" href="gallery.html">' + esc(t("g.back")) + "</a>" +
-      (photos.length ? '<div class="photos">' + photos.map(function (p, i) {
-        return '<button class="photo" type="button" data-i="' + i + '" aria-label="' + esc(t("g.open", { n: i + 1 })) + '"><img loading="lazy" alt="' + esc(L(p.caption)) + '" src="' + esc(p.src) + '"></button>';
-      }).join("") + "</div>" : "") +
-      ((album.videos || []).length ? '<div class="videos">' + album.videos.map(videoBlock).join("") + "</div>" : "") +
-      (!photos.length && !(album.videos || []).length ? '<p class="empty">' + esc(t("empty.album")) + "</p>" : "");
-    $$(".photo", host).forEach(function (b) {
-      b.addEventListener("click", function () { openLightbox(photos, parseInt(b.getAttribute("data-i"), 10)); });
-    });
+
+    var list = galleryList(type);
+    var album = id ? list.filter(function (a) { return a.id === id; })[0] : null;
+
+    /* level 2: occasion albums of one kind */
+    if (!album) {
+      setHead(t("g." + type + "_main"), t("g." + type + "_sub"));
+      host.innerHTML = '<a class="back" href="gallery.html">' + esc(t("g.back_gallery")) + "</a>" + (list.length
+        ? '<div class="albums">' + list.map(function (a) {
+          var meta = [longDate(a.date), countText(a, type)].filter(Boolean).join(" · ");
+          return '<a class="album" href="gallery.html?type=' + type + "&album=" + encodeURIComponent(a.id) + '">' + thumbHtml(albumCover(a, type)) +
+            '<div class="info"><h3>' + esc(L(a.title)) + '</h3><p class="meta">' + esc(meta) + "</p></div></a>";
+        }).join("") + "</div>"
+        : '<p class="empty">' + esc(t(type === "photos" ? "empty.albums" : "g.none_videos")) + "</p>") + (type === "videos" ? channelBlock() : "");
+      return;
+    }
+
+    /* level 3: one album */
+    setHead(L(album.title), [longDate(album.date), L(album.description)].filter(Boolean).join(". "));
+    var back = '<a class="back" href="gallery.html?type=' + type + '">' + esc(t("g.back_" + type)) + "</a>";
+    host.innerHTML = back + '<p class="fine">' + esc(t("g.loading")) + "</p>";
+    if (type === "photos") {
+      albumPhotos(album, function (err, photos) {
+        if (!photos.length) { host.innerHTML = back + '<p class="empty">' + esc(t(err ? "g.loadfail" : "empty.album")) + "</p>"; return; }
+        host.innerHTML = back + '<div class="photos">' + photos.map(function (p, i) {
+          return '<button class="photo" type="button" data-i="' + i + '" aria-label="' + esc(t("g.open", { n: i + 1 })) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(album.title)) + '" src="' + esc(p.src) + '"></button>';
+        }).join("") + "</div>";
+        $$(".photo", host).forEach(function (b) {
+          b.addEventListener("click", function () { openLightbox(photos, parseInt(b.getAttribute("data-i"), 10)); });
+        });
+      });
+    } else {
+      albumVideos(album, function (err, items) {
+        host.innerHTML = back + (items.length ? '<div class="videos">' + items.map(videoBlock).join("") + "</div>" : '<p class="empty">' + esc(t(err ? "g.loadfail" : "empty.album")) + "</p>");
+      });
+    }
   }
+
   function renderHomeGallery() {
-    var a = albums().filter(function (x) { return (x.photos || []).length; })[0];
     var sec = document.getElementById("home-gallery-section");
+    var a = galleryList("photos").filter(function (x) { return (x.files || []).length || x.folder; })[0];
     if (!a) { if (sec) sec.hidden = true; return; }
-    if (sec) sec.hidden = false;
-    put("home-gallery", '<div class="photos">' + a.photos.slice(0, 4).map(function (p) {
-      return '<a class="photo" href="gallery.html?album=' + encodeURIComponent(a.id) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(a.title)) + '" src="' + esc(p.src) + '"></a>';
-    }).join("") + "</div>");
-    var cap = document.getElementById("home-gallery-title"); if (cap) cap.textContent = L(a.title);
+    albumPhotos(a, function (err, photos) {
+      if (!photos.length) { if (sec) sec.hidden = true; return; }
+      if (sec) sec.hidden = false;
+      put("home-gallery", '<div class="photos">' + photos.slice(0, 4).map(function (p) {
+        return '<a class="photo" href="gallery.html?type=photos&album=' + encodeURIComponent(a.id) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(a.title)) + '" src="' + esc(p.src) + '"></a>';
+      }).join("") + "</div>");
+      var cap = document.getElementById("home-gallery-title"); if (cap) cap.textContent = L(a.title);
+    });
   }
 
   /* ---------- team + about ---------- */
   function renderTeam() {
-    var groups = window.TEAM || [];
+    var groups = vis(window.TEAM);
     put("team", groups.length ? groups.map(function (g) {
       return '<section class="team-group"><h2>' + esc(L(g.group)) + '</h2><div class="people">' + (g.members || []).map(function (m) {
         var nm = L(m.name);
@@ -510,7 +648,7 @@
     html += '<section id="how"><h2>' + esc(t("d.how")) + '</h2><div class="cards three">' + cards + "</div>" +
       (L(D.note) ? '<p class="note">' + esc(L(D.note)) + "</p>" : "") + "</section>";
 
-    var R = window.RECURRING || [];
+    var R = vis(window.RECURRING);
     if (R.length) {
       html += '<section id="regular"><h2>' + esc(t("d.regular")) + '</h2><p class="measure">' + esc(t("d.regular_p")) + '</p><div class="cards three">' + R.map(function (r) {
         return '<div class="card"><span class="tag">' + esc(L(r.when)) + "</span><h3>" + esc(L(r.title)) + "</h3><p>" + esc(L(r.text)) + "</p>" +
@@ -528,7 +666,7 @@
 
     html += '<section id="yojana"><h2>' + esc(t("d.yojana")) + '</h2><p class="measure">' + esc(t("d.yojana_p")) + '</p><a class="btn btn-line" href="yojana.html">' + esc(t("d.yojana_btn")) + "</a></section>";
 
-    var P = (window.PUNYARJAK || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    var P = vis(window.PUNYARJAK).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
     if (P.length) {
       html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + '</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) + '</th><th scope="col">' +
         esc(t("d.col_kind")) + '</th><th scope="col">' + esc(t("d.col_name")) + "</th></tr></thead><tbody>" + P.map(function (p) {
@@ -536,6 +674,13 @@
         }).join("") + "</tbody></table></div></section>";
     }
     html += '<p class="thanks">' + esc(t("d.thanks")) + "</p>";
+    var DR = vis(window.DRAVYA).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    if (DR.length) {
+      html = html.replace('<section id="yojana">', '<section id="dravya"><h2>' + esc(t("d.dravya")) + '</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) +
+        '</th><th scope="col">' + esc(t("d.col_donor")) + "</th></tr></thead><tbody>" + DR.map(function (p) {
+          return "<tr><td>" + esc(longDate(p.date)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
+        }).join("") + '</tbody></table></div></section><section id="yojana">');
+    }
     host.innerHTML = html;
 
     $$(".copy", host).forEach(function (b) {
@@ -608,6 +753,7 @@
   /* ---------- go ---------- */
   function render() {
     if (timer) { clearInterval(timer); timer = null; }
+    ensureTop();
     buildBanner();
     buildHeader();
     buildFooter();
