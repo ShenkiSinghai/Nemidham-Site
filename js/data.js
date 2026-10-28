@@ -51,7 +51,7 @@ window.SITE = {
   addressLines: [
     { hi: "श्री 1008 नेमिनाथ दिगंबर जैन मंदिर, नेमिधाम", en: "Shri 1008 Neminath Digambar Jain Mandir, Nemidham" },
     { hi: "बकोरी रोड, वाघोली", en: "Bakori Road, Wagholi" },
-    { hi: "पुणे, महाराष्ट्र 412207", en: "Pune, Maharashtra 412207" }
+    { hi: "पुणे, महाराष्ट्र, 412207", en: "Pune, Maharashtra, 412207" }
   ],
   phone: "",       // e.g. "+91 98765 43210"
   whatsapp: "",    // number for chat: digits only with country code, e.g. "919876543210"
@@ -86,6 +86,10 @@ window.SITE = {
 
   // Home page photo slideshow: random photos from your photo albums.
   slideshow: { enabled: true, count: 10, seconds: 5 },
+
+  // Shantidhara punyarjak table (Daan page): true shows only the current month's names.
+  // Set to false if you want last/next month's names to stay visible too.
+  punyarjakCurrentMonthOnly: true,
 
   // Where this site lives on GitHub. Only needed for the automatic photo list in Gallery albums.
   github: { user: "shenkisinghai", repo: "Nemidham" },
@@ -328,6 +332,17 @@ window.GALLERY = {
   ],
   videos: [
     {
+      id: "mandir-videos", date: "2026-10-28",
+      title: { hi: "मंदिर के वीडियो", en: "Mandir videos" },
+      description: { hi: "", en: "" },
+      items: [
+        { youtube: "https://www.youtube.com/watch?v=w6oB8_KqmOY", title: { hi: "भूमि पूजन", en: "Bhumi Pujan" } },
+        { youtube: "https://www.youtube.com/watch?v=1k3XrL_6LpA", title: { hi: "मुनि श्री अजीत सागर महाराज जी की मंगल देशना", en: "Muni Shri Ajit Sagar Maharaj Ji's Mangal Deshna" } },
+        { youtube: "https://www.youtube.com/watch?v=DbivpjTuzjM", title: { hi: "नेमिधाम वाघोली क्षमावाणी", en: "Nemidham Wagholi Kchamawani" } },
+        { youtube: "https://www.youtube.com/watch?v=5VB2MmrS7Ts", title: { hi: "शांतिधारा", en: "Shantidhara" } }
+      ]
+    },
+    {
       hidden: true,
       id: "sample-videos", date: "2026-10-01",
       title: { hi: "SAMPLE: आरती के वीडियो", en: "SAMPLE: Aarti videos" },
@@ -532,12 +547,13 @@ window.RECURRING = [
    If there are no rows, the table does not show. Only add a name with that person's permission. */
 window.PUNYARJAK = [
   // --- SAMPLE rows below, just to show how the table looks. Delete all of them before you publish. ---
+  // Only the current month shows by default on the Daan page (see SITE.punyarjakCurrentMonthOnly
+  // in data.js) — the Nov/Dec rows below are there to show that older/future months stay hidden.
+  { date: "2026-10-06", kind: "saptahik", name: "SAMPLE Name One" },
+  { date: "2026-10-06", kind: "saptahik", name: "SAMPLE Name Two" },
+  { date: "2026-10-13", kind: "saptahik", name: "SAMPLE Name One" },
+  { date: "2026-10-20", kind: "masik", name: "SAMPLE Name Three" },
   { date: "2026-11-03", kind: "saptahik", name: "SAMPLE Name One" },
-  { date: "2026-11-03", kind: "saptahik", name: "SAMPLE Name Two" },
-  { date: "2026-11-10", kind: "saptahik", name: "SAMPLE Name One" },
-  { date: "2026-11-15", kind: "masik", name: "SAMPLE Name Three" },
-  { date: "2026-12-01", kind: "saptahik", name: "SAMPLE Name One" },
-  { date: "2026-12-15", kind: "masik", name: "SAMPLE Name Three" },
   { date: "2026-12-15", kind: "masik", name: "SAMPLE Name Four" }
 ];
 

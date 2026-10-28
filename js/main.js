@@ -257,13 +257,21 @@
     document.head.appendChild(s);
   }
   /* The little public number shown in the footer. It reads the count GoatCounter already has;
-     it can take up to a few hours after a visit for the number to update. */
+     it can take up to a few hours after a visit for the number to update. We fetch the plain
+     number ourselves (instead of GoatCounter's own picture-badge) so it reads clearly against
+     the dark footer, in the site's own text style. */
   function counterHtml() {
     var code = gcCode();
     if (!code) return "";
-    return '<p class="foot-count"><img alt="' + esc(t("f.visitors")) + '" loading="lazy" ' +
-      'onerror="this.parentNode.style.display=\'none\'" ' +
-      'src="https://' + code + '.goatcounter.com/counter/TOTAL.svg?no_branding=1"></p>';
+    return '<p class="foot-count" id="foot-count">' + esc(t("f.visitors")) + ': <strong id="gc-count">…</strong></p>';
+  }
+  function fetchVisitorCount() {
+    var code = gcCode(), el = document.getElementById("gc-count");
+    if (!code || !el) return;
+    fetch("https://" + code + ".goatcounter.com/counter/TOTAL.json")
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (d) { if (d && d.count) el.textContent = d.count; else throw 0; })
+      .catch(function () { var p = document.getElementById("foot-count"); if (p) p.style.display = "none"; });
   }
   function buildFooter() {
     loadAnalytics();
@@ -279,7 +287,8 @@
       '<div><p class="foot-name">' + esc(L(S.name)) + "</p><p class=\"foot-addr\">" + addr + "</p></div>" +
       '<div><ul class="foot-links">' + links + '</ul><p class="foot-follow-h">' + esc(t("v.follow")) + '</p><div class="foot-social">' + socialIconsHtml("ficon") + "</div></div></div>" +
       '<div class="foot-bottom"><p class="legal">' + esc(t("f.legal", { year: new Date().getFullYear(), name: L(S.name), place: L(S.place) })) + "</p>" +
-      counterHtml() + cred + "</div></div></footer>");
+      '<div class="foot-meta">' + counterHtml() + cred + "</div></div></div></footer>");
+    fetchVisitorCount();
   }
 
   /* ---------- static texts ---------- */
@@ -411,9 +420,16 @@
     var up = splitByDate(evs, "endDate").up.slice(0, 3);
     put("home-events", up.length ? '<div class="events">' + up.map(function (e) { return eventCard(e, false); }).join("") + "</div>" : '<p class="empty">' + esc(t("empty.events")) + "</p>");
   }
+  /* Karyakram older than this many days quietly drop off the "past" list too, so it doesn't
+     keep growing forever. Change the number if you'd rather keep them longer. */
+  var KARYAKRAM_PAST_DAYS = 30;
+  function recentEnough(e, key) {
+    var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - KARYAKRAM_PAST_DAYS);
+    return new Date((e[key] || e.date) + "T00:00:00") >= cutoff;
+  }
   function renderKaryakram() {
     var host = document.getElementById("events"); if (!host) return;
-    var sp = splitByDate(vis(window.EVENTS), "endDate");
+    var sp = splitByDate(vis(window.EVENTS).filter(function (e) { return recentEnough(e, "endDate"); }), "endDate");
     host.innerHTML = '<p><a class="more" href="calendar.html">' + esc(t("nav.calendar")) + '</a></p>' + tabsHtml() + '<div id="events-list" aria-live="polite"></div>';
     var list = $("#events-list", host);
     wireTabs(host, function (which) {
@@ -787,6 +803,10 @@
       function monthLabel(ym) { return new Date(ym + "-01T00:00:00").toLocaleDateString(loc(), { month: "long", year: "numeric" }); }
       function drawPunya(kind) {
         var rows = kind === "all" ? P : P.filter(function (p) { return p.kind === kind; });
+        if (S.punyarjakCurrentMonthOnly !== false) {
+          var curYm = new Date().toISOString().slice(0, 7);
+          rows = rows.filter(function (p) { return String(p.date).slice(0, 7) === curYm; });
+        }
         var months = {}, order = [];
         rows.forEach(function (p) {
           var ym = String(p.date).slice(0, 7);
