@@ -5,6 +5,7 @@ window.UI = {
   hi: {
     "skip": "मुख्य सामग्री पर जाएँ", "menu": "मेनू",
     "lang.btn": "English", "lang.aria": "Switch to English", "lang.code": "en",
+    "theme.toDark": "डार्क मोड चालू करें", "theme.toLight": "लाइट मोड चालू करें",
     "nav.home": "होम", "nav.yojana": "योजनाएं",
     "nav.karyakram": "कार्यक्रम", "nav.karyakram_all": "सभी कार्यक्रम", "nav.calendar": "जैन कैलेंडर",
     "nav.gallery": "गैलरी", "nav.about": "मंदिर", "nav.about_mandir": "मंदिर के बारे में",
@@ -99,6 +100,7 @@ window.UI = {
   en: {
     "skip": "Skip to content", "menu": "Menu",
     "lang.btn": "हिंदी", "lang.aria": "हिंदी में देखें", "lang.code": "hi",
+    "theme.toDark": "Turn on dark mode", "theme.toLight": "Turn on light mode",
     "nav.home": "Home", "nav.yojana": "Yojanayen",
     "nav.karyakram": "Karyakram", "nav.karyakram_all": "All karyakram", "nav.calendar": "Jain Calendar",
     "nav.gallery": "Gallery", "nav.about": "About", "nav.about_mandir": "About the mandir",

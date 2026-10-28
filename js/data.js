@@ -84,8 +84,13 @@ window.SITE = {
   // Small credit shown at the bottom right of the footer. Set credit: null to hide it.
   credit: { name: "Shenki Singhai", url: "https://www.linkedin.com/in/shenki-singhai-20882061" },
 
-  // Home page photo slideshow: random photos from your photo albums.
-  slideshow: { enabled: true, count: 10, seconds: 5 },
+  // Home page photo slideshow: a scrolling strip of photos on the Home page.
+  //   enabled   true/false — turn the whole strip on or off.
+  //   source    "all" picks random photos from every visible photo album.
+  //             Or write one album's id (e.g. "vedi-pratishtha") to only ever show that album.
+  //   count     how many photos to pull into the strip.
+  //   seconds   how many seconds between each automatic scroll.
+  slideshow: { enabled: true, source: "all", count: 14, seconds: 4 },
 
   // Shantidhara punyarjak table (Daan page): true shows only the current month's names.
   // Set to false if you want last/next month's names to stay visible too.

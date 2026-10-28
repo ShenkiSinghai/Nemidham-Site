@@ -159,17 +159,34 @@
     });
   }
 
+  /* ---------- light/dark theme ---------- */
+  function isDark() { return document.documentElement.getAttribute("data-theme") === "dark"; }
+  function applyTheme(mode) {
+    if (mode === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    else document.documentElement.removeAttribute("data-theme");
+    try { localStorage.setItem("nj-theme", mode); } catch (e) {}
+  }
+  function themeBtnHtml() {
+    return '<button class="theme-btn" type="button" aria-label="' + esc(t(isDark() ? "theme.toLight" : "theme.toDark")) + '">' + (isDark() ? "&#9728;&#65039;" : "&#127769;") + "</button>";
+  }
+
   function buildHeader() {
     put("site-header",
       '<header class="site"><div class="wrap bar">' +
       '<a class="brand" href="index.html">' + (S.logo ? '<img class="mark" src="' + esc(S.logo) + '" alt="">' : '<span class="mark" aria-hidden="true">ने</span>') + '' +
       '<span class="brand-text"><strong>' + esc(L(S.name)) + "</strong><small>" + esc(L(S.place)) + "</small></span></a>" +
       '<nav id="nav" aria-label="' + esc(t("menu")) + '"><ul>' + NAV.map(navItem).join("") + "</ul></nav>" +
-      '<div class="bar-right"><button class="lang" type="button" lang="' + esc(t("lang.code")) + '" aria-label="' + esc(t("lang.aria")) + '">' + esc(t("lang.btn")) + "</button>" +
+      '<div class="bar-right">' + themeBtnHtml() + '<button class="lang" type="button" lang="' + esc(t("lang.code")) + '" aria-label="' + esc(t("lang.aria")) + '">' + esc(t("lang.btn")) + "</button>" +
       '<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav"><span class="sr">' + esc(t("menu")) + "</span><i></i></button></div>" +
       "</div></header>");
 
     var hdr = $("header.site"), btn = $(".nav-toggle", hdr);
+    $(".theme-btn", hdr).addEventListener("click", function () {
+      applyTheme(isDark() ? "light" : "dark");
+      var tb = $(".theme-btn", hdr);
+      tb.innerHTML = isDark() ? "&#9728;&#65039;" : "&#127769;";
+      tb.setAttribute("aria-label", t(isDark() ? "theme.toLight" : "theme.toDark"));
+    });
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
       var open = hdr.classList.toggle("open");
@@ -666,9 +683,13 @@
     for (i = a.length - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
     return a;
   }
-  /* Collects photos from every visible photo album (used for the Home slideshow). cb(photos) */
+  /* Collects photos for the Home slideshow: every visible photo album, or just one
+     (SITE.slideshow.source set to an album id) if you want the strip to only ever
+     pull from that album. cb(photos) */
   function allPhotos(cb) {
+    var SS = S.slideshow || {};
     var albums = galleryList("photos").filter(function (x) { return (x.files || []).length || x.folder; });
+    if (SS.source && SS.source !== "all") albums = albums.filter(function (a) { return a.id === SS.source; });
     if (!albums.length) { cb([]); return; }
     var out = [], left = albums.length;
     albums.forEach(function (a) {
@@ -679,35 +700,55 @@
     });
   }
   var slideTimer = null;
+  /* A horizontal strip that shows several photos at once, scrolls itself slowly, and can
+     also be dragged/scrolled or stepped with the two arrow buttons. */
   function renderHomeGallery() {
     var sec = document.getElementById("home-gallery-section");
     var SS = S.slideshow || {};
     if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
+    if (SS.enabled === false) { if (sec) sec.hidden = true; return; }
     allPhotos(function (photos) {
       if (!photos.length) { if (sec) sec.hidden = true; return; }
       if (sec) sec.hidden = false;
       var cap = document.getElementById("home-gallery-title");
+      var pick = shuffle(photos).slice(0, SS.count || 14);
+      if (cap) cap.textContent = pick.length === 1 ? ": " + L(pick[0].albumTitle) : "";
 
-      if (SS.enabled !== false) {
-        var pick = shuffle(photos).slice(0, SS.count || 10);
-        var idx = 0;
-        function draw() {
-          var p = pick[idx];
-          put("home-gallery", '<a class="slide" href="gallery.html?type=photos&album=' + encodeURIComponent(p.albumId) + '">' +
+      put("home-gallery",
+        '<div class="ss-wrap">' +
+        '<button class="ss-nav ss-prev" type="button" aria-label="' + esc(t("lb.prev")) + '">&#8249;</button>' +
+        '<div class="ss-track-outer"><div class="ss-track" id="ss-track">' +
+        pick.map(function (p) {
+          return '<a class="ss-card" href="gallery.html?type=photos&album=' + encodeURIComponent(p.albumId) + '">' +
             '<img loading="lazy" alt="' + esc(L(p.caption) || L(p.albumTitle)) + '" src="' + esc(p.src) + '">' +
-            '<span class="slide-cap">' + esc(L(p.albumTitle)) + "</span></a>" +
-            (pick.length > 1 ? '<div class="slide-dots">' + pick.map(function (x, i) { return '<i class="' + (i === idx ? "on" : "") + '"></i>'; }).join("") + "</div>" : ""));
-          if (cap) cap.textContent = L(p.albumTitle);
-        }
-        draw();
-        if (pick.length > 1) slideTimer = setInterval(function () { idx = (idx + 1) % pick.length; draw(); }, Math.max(2, SS.seconds || 5) * 1000);
-      } else {
-        var a0 = photos[0];
-        put("home-gallery", '<div class="photos">' + photos.slice(0, 4).map(function (p) {
-          return '<a class="photo" href="gallery.html?type=photos&album=' + encodeURIComponent(p.albumId) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(p.albumTitle)) + '" src="' + esc(p.src) + '"></a>';
-        }).join("") + "</div>");
-        if (cap) cap.textContent = a0 ? L(a0.albumTitle) : "";
+            '<span class="ss-cap">' + esc(L(p.albumTitle)) + "</span></a>";
+        }).join("") +
+        "</div></div>" +
+        '<button class="ss-nav ss-next" type="button" aria-label="' + esc(t("lb.next")) + '">&#8250;</button>' +
+        "</div>");
+
+      var track = document.getElementById("ss-track");
+      if (!track) return;
+      function cardStep() {
+        var card = track.querySelector(".ss-card");
+        if (!card) return 240;
+        var style = getComputedStyle(track);
+        return card.getBoundingClientRect().width + parseFloat(style.columnGap || style.gap || 14);
       }
+      function atEnd() { return track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; }
+      function step(dir) {
+        if (atEnd() && dir > 0) { track.scrollTo({ left: 0, behavior: "smooth" }); return; }
+        if (track.scrollLeft <= 0 && dir < 0) { track.scrollTo({ left: track.scrollWidth, behavior: "smooth" }); return; }
+        track.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
+      }
+      function restartAuto() {
+        if (slideTimer) clearInterval(slideTimer);
+        if (pick.length > 1) slideTimer = setInterval(function () { step(1); }, Math.max(2, SS.seconds || 4) * 1000);
+      }
+      var prevBtn = $(".ss-prev", sec), nextBtn = $(".ss-next", sec);
+      if (prevBtn) prevBtn.addEventListener("click", function () { step(-1); restartAuto(); });
+      if (nextBtn) nextBtn.addEventListener("click", function () { step(1); restartAuto(); });
+      restartAuto();
     });
   }
 
@@ -885,6 +926,38 @@
      The footer's social icons (always visible) do this job on every page. */
   function renderConnect() {}
 
+  /* ---------- gentle scroll-reveal: fade/rise content in as it enters the viewport ---------- */
+  var REVEAL_SEL = ".card, .notice, .event, .yojana, .album, .person, .ss-card, .photo, .pmonth";
+  var revealIO = null, revealMO = null;
+  function setupReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    if (!revealIO) {
+      revealIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add("in"); revealIO.unobserve(en.target); }
+        });
+      }, { threshold: .12, rootMargin: "0px 0px -40px 0px" });
+    }
+    function tag(el) {
+      if (el.classList.contains("reveal") || el.classList.contains("in")) return;
+      el.classList.add("reveal");
+      revealIO.observe(el);
+    }
+    $$(REVEAL_SEL, document).forEach(tag);
+    if (!revealMO && "MutationObserver" in window) {
+      revealMO = new MutationObserver(function (muts) {
+        muts.forEach(function (m) {
+          m.addedNodes.forEach(function (n) {
+            if (n.nodeType !== 1) return;
+            if (n.matches && n.matches(REVEAL_SEL)) tag(n);
+            if (n.querySelectorAll) $$(REVEAL_SEL, n).forEach(tag);
+          });
+        });
+      });
+      revealMO.observe(document.getElementById("main") || document.body, { childList: true, subtree: true });
+    }
+  }
+
   /* ---------- go ---------- */
   function render() {
     if (timer) { clearInterval(timer); timer = null; }
@@ -914,6 +987,7 @@
         if (el) el.scrollIntoView();
       }
     }
+    setupReveal();
   }
   render();
 })();
