@@ -39,8 +39,6 @@ h3 { font-size: 1.2rem; }
 p { margin: 0 0 1em; }
 :focus-visible { outline: 3px solid var(--ink-2); outline-offset: 3px; border-radius: 4px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.skip { position: absolute; left: 12px; top: -60px; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 100; }
-.skip:focus { top: 12px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
 .measure { max-width: 68ch; }
 
@@ -333,3 +331,40 @@ footer.site .foot-links li { margin: 0; }
 .album.kind h3 { font-size: 1.25rem; }
 .chan { margin-top: 36px; }
 .back { font-weight: 600; }
+
+/* ---------- Home photo slideshow ---------- */
+.slide { position: relative; display: block; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 9; background: var(--mist); text-decoration: none; }
+.slide img { width: 100%; height: 100%; object-fit: cover; animation: fadein .5s ease; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.slide-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 20px 14px; background: linear-gradient(to top, rgba(18,32,58,.82), transparent); color: #fff; font-family: var(--serif); font-size: 1.1rem; }
+.slide-dots { display: flex; justify-content: center; gap: 7px; margin-top: 14px; }
+.slide-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
+.slide-dots i.on { background: var(--gold); }
+
+/* ---------- Social icons (always shown; greyed out when no link yet) ---------- */
+.ficon, .sicon { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.1); color: #fff; flex: none; }
+.ficon svg, .sicon svg { width: 19px; height: 19px; fill: currentColor; }
+.ficon:hover { background: var(--gold-soft); color: var(--ink); }
+.ficon.off, .sicon.off { opacity: .35; cursor: default; pointer-events: none; }
+.foot-social { display: flex; gap: 8px; margin-top: 10px; }
+.btn.off { opacity: .45; cursor: default; pointer-events: none; }
+
+/* ---------- Footer: counter + credit ---------- */
+.foot-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; }
+.foot-bottom .legal { border-top: 0; margin-top: 0; padding-top: 0; }
+.foot-count img { height: 20px; display: block; opacity: .85; }
+.foot-credit { font-size: .82rem; color: #9fabc2 !important; text-decoration: none; }
+.foot-credit:hover { color: var(--gold-soft) !important; }
+
+/* ---------- Shantidhara punyarjak: filter + month table ---------- */
+.pfilter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.pf { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: .92rem; font-family: var(--sans); cursor: pointer; color: var(--text); font-weight: 600; display: inline-flex; align-items: center; gap: 7px; }
+.pf[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pf[aria-pressed="true"] .dot { outline: 2px solid rgba(255,255,255,.5); outline-offset: 1px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.dot-saptahik { background: var(--ink-2); }
+.dot-masik { background: var(--gold); }
+.pmonth { margin-bottom: 18px; }
+.pmonth:last-child { margin-bottom: 0; }
+.pmonth h3 { font-size: 1rem; color: var(--muted); font-family: var(--sans); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .02em; }
+.prow td:first-child { display: flex; align-items: center; gap: 10px; white-space: nowrap; }

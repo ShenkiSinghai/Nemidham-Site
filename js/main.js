@@ -93,14 +93,30 @@
   function showTimings() { return S.showTimings !== false && S.timings; }
 
   var SOCIAL = [
-    ["whatsappGroup", "social.whatsapp"],
-    ["facebook", "social.facebook"],
-    ["instagram", "social.instagram"],
-    ["youtube", "social.youtube"]
+    ["whatsappGroup", "social.whatsapp", "wa"],
+    ["facebook", "social.facebook", "fb"],
+    ["instagram", "social.instagram", "ig"],
+    ["youtube", "social.youtube", "yt"]
   ];
+  /* Always lists all four platforms. url is "" when not filled in yet; the caller
+     should then show the icon greyed out and not clickable. */
   function socialList() {
     var s = S.social || {};
-    return SOCIAL.filter(function (x) { return s[x[0]]; }).map(function (x) { return { url: s[x[0]], label: t(x[1]) }; });
+    return SOCIAL.map(function (x) { return { url: s[x[0]] || "", label: t(x[1]), icon: x[2] }; });
+  }
+  var ICON_SVG = {
+    wa: '<path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 1.8a8.2 8.2 0 017 12.5l-.2.4.6 2.3-2.4-.6-.4.2a8.2 8.2 0 11-4.6-14.8zm-3.4 4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.2.2 2 3 4.7 4.2 2.3 1 2.7.8 3.2.8.5 0 1.6-.6 1.8-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3l-2-1c-.3-.1-.5-.1-.6.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.8-1.4-1.7-1.5-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.5-.4-.5-.6-.5h-.6z"/>',
+    fb: '<path d="M13.5 21v-7.6h2.6l.4-3h-3v-1.9c0-.9.2-1.5 1.6-1.5h1.6V4.2C16.3 4.1 15.3 4 14.2 4c-2.4 0-4 1.5-4 4.1v2.3H7.6v3h2.6V21h3.3z"/>',
+    ig: '<path d="M8 3h8a5 5 0 015 5v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5zm0 2a3 3 0 00-3 3v8a3 3 0 003 3h8a3 3 0 003-3V8a3 3 0 00-3-3H8zm4 3.5A4.5 4.5 0 1112 17a4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.2 6.8a1 1 0 110 2 1 1 0 010-2z"/>',
+    yt: '<path d="M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.6-.8-2-.9C15.9 4 12 4 12 4h0s-3.9 0-6.8.2c-.4 0-1.2.1-2 .9-.6.6-.8 2.1-.8 2.1S2.2 9 2.2 10.7v1.6C2.2 14 2.4 15.8 2.4 15.8s.2 1.5.8 2.1c.8.8 1.8.8 2.3.9 1.6.2 7 .2 7 .2s3.9 0 6.8-.3c.4 0 1.2-.1 2-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.5v-1.6c0-1.7-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/>'
+  };
+  function socialIconsHtml(cls) {
+    return socialList().map(function (s) {
+      var svg = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICON_SVG[s.icon] || "") + "</svg>";
+      return s.url
+        ? '<a class="' + cls + '" href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.label) + '">' + svg + "</a>"
+        : '<span class="' + cls + ' off" aria-hidden="true" title="' + esc(s.label) + '">' + svg + "</span>";
+    }).join("");
   }
 
   /* ---------- menu ---------- */
@@ -212,25 +228,45 @@
   }
 
   /* ---------- footer ---------- */
+  var ANALYTICS_LOADED = false;
+  function loadAnalytics() {
+    if (ANALYTICS_LOADED) return;
+    var id = String((S.analyticsId || "")).trim();
+    if (!/^G-[A-Z0-9]+$/i.test(id)) return;
+    ANALYTICS_LOADED = true;
+    var s1 = document.createElement("script");
+    s1.async = true; s1.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s1);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    gtag("js", new Date()); gtag("config", id);
+    window.gtag = gtag;
+  }
+  function counterHtml() {
+    var c = S.goatcounter;
+    if (!c) return "";
+    return '<p class="foot-count"><img alt="' + esc(t("f.visitors")) + '" src="https://' + esc(c) + '.goatcounter.com/count?p=' + encodeURIComponent(location.pathname) + '"></p>';
+  }
   function buildFooter() {
+    loadAnalytics();
     var nameNow = String(L(S.name));
     var addr = (L(S.addressLines) || []).filter(function (a) { return String(L(a)).indexOf(nameNow) !== 0; }).map(function (a) { return esc(L(a)); }).join("<br>");
     var links = "";
     if (S.phone) links += '<li><a href="' + telHref(S.phone) + '">' + esc(S.phone) + "</a></li>";
     if (S.email) links += '<li><a href="mailto:' + esc(S.email) + '">' + esc(S.email) + "</a></li>";
-    links += socialList().map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a></li>"; }).join("");
+    var cred = S.credit && S.credit.name ? '<a class="foot-credit" href="' + esc(S.credit.url || "#") + '" target="_blank" rel="noopener">' + esc(t("f.by", { name: S.credit.name })) + "</a>" : "";
     put("site-footer",
       '<footer class="site"><div class="wrap"><div class="foot-grid">' +
       '<div><p class="foot-name">' + esc(L(S.name)) + "</p><p class=\"foot-addr\">" + addr + "</p></div>" +
-      (links ? '<div><ul class="foot-links">' + links + "</ul></div>" : "") + "</div>" +
-      '<p class="legal">' + esc(t("f.legal", { year: new Date().getFullYear(), name: L(S.name), place: L(S.place) })) + "</p></div></footer>");
+      '<div><ul class="foot-links">' + links + "</ul><div class=\"foot-social\">" + socialIconsHtml("ficon") + "</div></div></div>" +
+      '<div class="foot-bottom"><p class="legal">' + esc(t("f.legal", { year: new Date().getFullYear(), name: L(S.name), place: L(S.place) })) + "</p>" +
+      counterHtml() + cred + "</div></div></footer>");
   }
 
   /* ---------- static texts ---------- */
   function applyStatic() {
     document.documentElement.lang = lang;
     $$("[data-i18n]").forEach(function (el) { el.textContent = t(el.getAttribute("data-i18n")); });
-    var sk = $(".skip"); if (sk) sk.textContent = t("skip");
     var nm = L(S.name) + ", " + L(S.place);
     document.title = page === "home" ? nm : t("p." + page + ".h1") + " · " + nm;
   }
@@ -305,8 +341,9 @@
     if (y.raised) money += "<div><dt>" + esc(t("y.raised")) + "</dt><dd>" + esc(y.raised) + "</dd></div>";
     var btn = st === "soon" ? '<a class="btn btn-line" href="visit.html#contact">' + esc(t("y.ask")) + "</a>"
       : st === "done" ? "" : '<a class="btn btn-primary" href="daan.html#how">' + esc(t("y.give")) + "</a>";
+    var link2 = !compact && y.link && y.link.href && L(y.link.text) ? '<a class="btn btn-line" href="' + esc(y.link.href) + '">' + esc(L(y.link.text)) + "</a>" : "";
     return '<article class="yojana" id="' + esc(y.id) + '"><div class="yhead"><h3>' + esc(L(y.title)) + "</h3>" + chip + "</div><p>" + esc(L(y.summary || y.short)) + "</p>" +
-      (det ? "<ul>" + det + "</ul>" : "") + (money ? '<dl class="rows">' + money + "</dl>" : "") + (btn ? '<div class="btn-row">' + btn + "</div>" : "") + "</article>";
+      (det ? "<ul>" + det + "</ul>" : "") + (money ? '<dl class="rows">' + money + "</dl>" : "") + (btn || link2 ? '<div class="btn-row">' + btn + link2 + "</div>" : "") + "</article>";
   }
   function renderYojanaPage() {
     var host = document.getElementById("yojana-list"); if (!host) return;
@@ -318,7 +355,7 @@
       (later.length ? '<section><h2>' + esc(t("y.later")) + '</h2><div class="ylist">' + later.map(function (y) { return yojanaCard(y); }).join("") + "</div></section>" : "");
   }
   function renderHomeYojana() {
-    var all = vis(window.YOJANA);
+    var all = vis(window.YOJANA).filter(function (y) { return y.home !== false; });
     put("home-yojana", all.length ? '<div class="cards three">' + all.map(function (y) { return yojanaCard(y, true); }).join("") + "</div>" : "");
   }
 
@@ -351,7 +388,8 @@
     show("upcoming");
   }
   function renderHomeEvents() {
-    var up = splitByDate(vis(window.EVENTS), "endDate").up.slice(0, 3);
+    var evs = vis(window.EVENTS).filter(function (e) { return e.home !== false; });
+    var up = splitByDate(evs, "endDate").up.slice(0, 3);
     put("home-events", up.length ? '<div class="events">' + up.map(function (e) { return eventCard(e, false); }).join("") + "</div>" : '<p class="empty">' + esc(t("empty.events")) + "</p>");
   }
   function renderKaryakram() {
@@ -588,17 +626,53 @@
     }
   }
 
+  function shuffle(arr) {
+    var a = arr.slice(), i, j, t;
+    for (i = a.length - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  /* Collects photos from every visible photo album (used for the Home slideshow). cb(photos) */
+  function allPhotos(cb) {
+    var albums = galleryList("photos").filter(function (x) { return (x.files || []).length || x.folder; });
+    if (!albums.length) { cb([]); return; }
+    var out = [], left = albums.length;
+    albums.forEach(function (a) {
+      albumPhotos(a, function (err, photos) {
+        (photos || []).forEach(function (p) { out.push({ src: p.src, caption: p.caption, albumId: a.id, albumTitle: a.title }); });
+        if (--left === 0) cb(out);
+      });
+    });
+  }
+  var slideTimer = null;
   function renderHomeGallery() {
     var sec = document.getElementById("home-gallery-section");
-    var a = galleryList("photos").filter(function (x) { return (x.files || []).length || x.folder; })[0];
-    if (!a) { if (sec) sec.hidden = true; return; }
-    albumPhotos(a, function (err, photos) {
+    var SS = S.slideshow || {};
+    if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
+    allPhotos(function (photos) {
       if (!photos.length) { if (sec) sec.hidden = true; return; }
       if (sec) sec.hidden = false;
-      put("home-gallery", '<div class="photos">' + photos.slice(0, 4).map(function (p) {
-        return '<a class="photo" href="gallery.html?type=photos&album=' + encodeURIComponent(a.id) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(a.title)) + '" src="' + esc(p.src) + '"></a>';
-      }).join("") + "</div>");
-      var cap = document.getElementById("home-gallery-title"); if (cap) cap.textContent = L(a.title);
+      var cap = document.getElementById("home-gallery-title");
+
+      if (SS.enabled !== false) {
+        var pick = shuffle(photos).slice(0, SS.count || 10);
+        var idx = 0;
+        function draw() {
+          var p = pick[idx];
+          put("home-gallery", '<a class="slide" href="gallery.html?type=photos&album=' + encodeURIComponent(p.albumId) + '">' +
+            '<img loading="lazy" alt="' + esc(L(p.caption) || L(p.albumTitle)) + '" src="' + esc(p.src) + '">' +
+            '<span class="slide-cap">' + esc(L(p.albumTitle)) + "</span></a>" +
+            (pick.length > 1 ? '<div class="slide-dots">' + pick.map(function (x, i) { return '<i class="' + (i === idx ? "on" : "") + '"></i>'; }).join("") + "</div>" : ""));
+          if (cap) cap.textContent = L(p.albumTitle);
+        }
+        draw();
+        if (pick.length > 1) slideTimer = setInterval(function () { idx = (idx + 1) % pick.length; draw(); }, Math.max(2, SS.seconds || 5) * 1000);
+      } else {
+        var a0 = photos[0];
+        put("home-gallery", '<div class="photos">' + photos.slice(0, 4).map(function (p) {
+          return '<a class="photo" href="gallery.html?type=photos&album=' + encodeURIComponent(p.albumId) + '"><img loading="lazy" alt="' + esc(L(p.caption) || L(p.albumTitle)) + '" src="' + esc(p.src) + '"></a>';
+        }).join("") + "</div>");
+        if (cap) cap.textContent = a0 ? L(a0.albumTitle) : "";
+      }
     });
   }
 
@@ -666,12 +740,14 @@
 
     html += '<section id="yojana"><h2>' + esc(t("d.yojana")) + '</h2><p class="measure">' + esc(t("d.yojana_p")) + '</p><a class="btn btn-line" href="yojana.html">' + esc(t("d.yojana_btn")) + "</a></section>";
 
-    var P = vis(window.PUNYARJAK).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    var P = vis(window.PUNYARJAK).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     if (P.length) {
-      html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + '</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) + '</th><th scope="col">' +
-        esc(t("d.col_kind")) + '</th><th scope="col">' + esc(t("d.col_name")) + "</th></tr></thead><tbody>" + P.map(function (p) {
-          return "<tr><td>" + esc(longDate(p.date)) + "</td><td>" + esc(t("kind." + p.kind)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
-        }).join("") + "</tbody></table></div></section>";
+      html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + "</h2>" +
+        '<div class="pfilter" role="group" aria-label="' + esc(t("d.punya")) + '">' +
+        '<button class="pf" type="button" data-k="all" aria-pressed="true">' + esc(t("d.col_kind_all")) + "</button>" +
+        '<button class="pf" type="button" data-k="saptahik" aria-pressed="false"><i class="dot dot-saptahik"></i>' + esc(t("kind.saptahik")) + "</button>" +
+        '<button class="pf" type="button" data-k="masik" aria-pressed="false"><i class="dot dot-masik"></i>' + esc(t("kind.masik")) + "</button>" +
+        '</div><div id="punya-body"></div></section>';
     }
     html += '<p class="thanks">' + esc(t("d.thanks")) + "</p>";
     var DR = vis(window.DRAVYA).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
@@ -682,6 +758,33 @@
         }).join("") + '</tbody></table></div></section><section id="yojana">');
     }
     host.innerHTML = html;
+
+    if (P.length) {
+      var pbody = $("#punya-body", host);
+      function monthLabel(ym) { return new Date(ym + "-01T00:00:00").toLocaleDateString(loc(), { month: "long", year: "numeric" }); }
+      function drawPunya(kind) {
+        var rows = kind === "all" ? P : P.filter(function (p) { return p.kind === kind; });
+        var months = {}, order = [];
+        rows.forEach(function (p) {
+          var ym = String(p.date).slice(0, 7);
+          if (!months[ym]) { months[ym] = []; order.push(ym); }
+          months[ym].push(p);
+        });
+        pbody.innerHTML = order.length ? order.map(function (ym) {
+          return '<div class="pmonth"><h3>' + esc(monthLabel(ym)) + '</h3><div class="tbl-wrap"><table class="tbl"><tbody>' +
+            months[ym].map(function (p) {
+              return '<tr class="prow k-' + esc(p.kind) + '"><td><i class="dot dot-' + esc(p.kind) + '"></i>' + esc(longDate(p.date)) + "</td><td>" + esc(t("kind." + p.kind)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
+            }).join("") + "</tbody></table></div></div>";
+        }).join("") : '<p class="empty">' + esc(t("empty.punya")) + "</p>";
+      }
+      $$(".pf", host).forEach(function (b) {
+        b.addEventListener("click", function () {
+          $$(".pf", host).forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+          drawPunya(b.getAttribute("data-k"));
+        });
+      });
+      drawPunya("all");
+    }
 
     $$(".copy", host).forEach(function (b) {
       b.addEventListener("click", function () {
@@ -725,18 +828,18 @@
         "<div><dt>" + esc(t("tm.aarti")) + "</dt><dd>" + esc(fmtTime(T.aarti)) + "</dd></div>" +
         "<div><dt>" + esc(t("tm.close")) + "</dt><dd>" + esc(fmtTime(T.close)) + "</dd></div></dl></div>" : "") + "</div>";
 
-    var how = window.HOWTO || [];
+    var how = vis(window.HOWTO);
     if (how.length) {
       html += '<section id="reach"><h2>' + esc(t("v.reach")) + '</h2><div class="cards">' + how.map(function (h) {
         return '<div class="card"><h3>' + esc(L(h.title)) + "</h3><p>" + esc(L(h.text)) + "</p></div>";
       }).join("") + "</div></section>";
     }
     var soc = socialList();
-    if (soc.length) {
-      html += '<section id="follow"><h2>' + esc(t("v.follow")) + '</h2><div class="btn-row">' + soc.map(function (s) {
-        return '<a class="btn btn-line" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>";
-      }).join("") + "</div></section>";
-    }
+    html += '<section id="follow"><h2>' + esc(t("v.follow")) + '</h2><div class="btn-row">' + soc.map(function (s) {
+      return s.url
+        ? '<a class="btn btn-line" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>"
+        : '<span class="btn btn-line off" aria-disabled="true">' + esc(s.label) + "</span>";
+    }).join("") + "</div></section>";
     host.innerHTML = html;
   }
 
@@ -744,9 +847,11 @@
   function renderConnect() {
     var sec = document.getElementById("home-connect-section"); if (!sec) return;
     var soc = socialList();
-    sec.hidden = !soc.length;
+    sec.hidden = !soc.some(function (s) { return s.url; });
     put("home-connect", '<div class="btn-row">' + soc.map(function (s, i) {
-      return '<a class="btn ' + (i === 0 ? "btn-primary" : "btn-line") + '" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>";
+      return s.url
+        ? '<a class="btn ' + (i === 0 ? "btn-primary" : "btn-line") + '" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>"
+        : '<span class="btn btn-line off" aria-disabled="true">' + esc(s.label) + "</span>";
     }).join("") + "</div>");
   }
 

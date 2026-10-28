@@ -18,18 +18,19 @@
    ===================================================================== */
 
 /* ---------- 0. YOUR LINKS: WhatsApp, Facebook, Instagram, YouTube ----------
-   Paste the full link between the quote marks. Leave "" to hide that button.
-   The buttons then appear on Home, on the How to reach page and in the footer. */
+   Paste the full link between the quote marks.
+   The four icons always show. A platform with "" (no link yet) is shown greyed out and cannot be clicked.
+   The links open that platform directly. They appear on Home, on the How to reach page and in the footer. */
 window.LINKS = {
-  whatsappGroup: "",   // WhatsApp group invite link, e.g. "https://chat.whatsapp.com/...."
+  whatsappGroup: "https://chat.whatsapp.com/IECu8XuP7dLFaWeDHTsHMW?s=cl&p=a&mlu=4&ilr=4&iam=2",   // WhatsApp group invite link
   facebook: "",        // e.g. "https://www.facebook.com/yourpage"
   instagram: "",       // e.g. "https://www.instagram.com/yourpage"
-  youtube: ""          // e.g. "https://www.youtube.com/@yourchannel"
+  youtube: "https://youtube.com/@neminathjinalay"          // YouTube channel link
 };
 
 /* ---------- 1. Basic details ---------- */
 window.SITE = {
-  name:  { hi: "श्री 1008 नेमिनाथ जिनालय", en: "Shri 1008 Neminath Jinalay" },
+  name:  { hi: "श्री 1008 नेमिनाथ दिगंबर जैन मंदिर", en: "Shri 1008 Neminath Digambar Jain Mandir" },
   place: { hi: "नेमिधाम", en: "Nemidham" },
   tagline: {
     hi: "नेमिधाम में रोज़ दर्शन, अभिषेक और आरती। आपके सहयोग से मंदिर का विकास आगे बढ़ रहा है।",
@@ -48,9 +49,9 @@ window.SITE = {
   },
 
   addressLines: [
-    { hi: "श्री 1008 नेमिनाथ जिनालय, नेमिधाम", en: "Shri 1008 Neminath Jinalay, Nemidham" },
-    { hi: "SAMPLE: गली / क्षेत्र लिखें", en: "SAMPLE: Add street / area" },
-    { hi: "SAMPLE: शहर, राज्य और पिन कोड लिखें", en: "SAMPLE: Add city, state and PIN code" }
+    { hi: "श्री 1008 नेमिनाथ दिगंबर जैन मंदिर, नेमिधाम", en: "Shri 1008 Neminath Digambar Jain Mandir, Nemidham" },
+    { hi: "बकोरी रोड, वाघोली", en: "Bakori Road, Wagholi" },
+    { hi: "पुणे, महाराष्ट्र 412207", en: "Pune, Maharashtra 412207" }
   ],
   phone: "",       // e.g. "+91 98765 43210"
   whatsapp: "",    // number for chat: digits only with country code, e.g. "919876543210"
@@ -68,9 +69,21 @@ window.SITE = {
   // Social links: fill them in section 0 at the top of this file.
   social: window.LINKS,
 
-  // Small Jain symbol shown in the menu. To remove it, set logo: "" (the letter "ने" shows instead).
-  // When the mandir has its own logo, upload it to images/ and write its path here.
-  logo: "images/jain-symbol.svg",
+  // Mandir logo shown in the menu. To use another picture, upload it to images/ and write its path here.
+  // (images/jain-symbol.svg is the plain Jain symbol, if you ever want it back.)
+  logo: "images/mandir-logo.png",
+
+  // Visitor numbers. analyticsId: Google Analytics, private numbers for you (analytics.google.com).
+  analyticsId: "G-BWWJVYC4Q4",
+  // goatcounter: the public visitor count shown in the footer. Make a free site at goatcounter.com, then
+  // write only its code here (the first part of CODE.goatcounter.com). Leave "" to hide the count.
+  goatcounter: "",
+
+  // Small credit shown at the bottom right of the footer. Set credit: null to hide it.
+  credit: { name: "Shenki Singhai", url: "https://www.linkedin.com/in/shenki-singhai-20882061" },
+
+  // Home page photo slideshow: random photos from your photo albums.
+  slideshow: { enabled: true, count: 10, seconds: 5 },
 
   // Where this site lives on GitHub. Only needed for the automatic photo list in Gallery albums.
   github: { user: "shenkisinghai", repo: "Nemidham" },
@@ -88,8 +101,8 @@ window.SITE = {
 window.BANNER = {
   enabled: true,
   text: {
-    hi: "संत शाला और नई मूर्तियों के लिए सहयोग का अवसर।",
-    en: "Be part of building the Sant Shala and the new murtis."
+    hi: "संत शाला और नई प्रतिमाओं के लिए सहयोग का अवसर।",
+    en: "Be part of building the Sant Shala and the new pratimas."
   },
   link: "yojana.html",
   linkText: { hi: "योजनाएं देखें", en: "See Yojanayen" }
@@ -99,6 +112,11 @@ window.BANNER = {
 // status: "active" (efforts underway), "soon" (coming later), "done" (completed)
 // target / raised: optional, e.g. "₹ 11,00,000". Leave "" to hide.
 // details: a short list of points (optional).
+// link: optional button-like link inside the card, e.g. { href: "team.html", text: { hi: "...", en: "..." } }
+// home: false  keeps a yojana off the Home page (it still shows on the Yojanayen page).
+// hidden: true  hides a yojana everywhere without deleting it.
+// To add a new yojana: copy one whole { ... }, block, paste it after the last one, and change the text and id.
+// To remove one: delete its whole { ... }, block, or set  home: false  (only Home) / hidden: true  (everywhere).
 window.YOJANA = [
   {
     id: "bhumi-daan",
@@ -113,9 +131,10 @@ window.YOJANA = [
       en: "The mandir is already built, but for now it stands on land given for religious use for 3 years. We are accepting bhumi daan so that the mandir can have its own land."
     },
     details: [
-      { hi: "SAMPLE: ज़रूरी भूमि का क्षेत्रफल और स्थान यहाँ लिखें।", en: "SAMPLE: Write the area and location of land needed." },
-      { hi: "SAMPLE: जो भूमि दान करना चाहें वे किससे संपर्क करें।", en: "SAMPLE: Who to contact if you wish to donate land." }
+      { hi: "आवश्यक भूमि का क्षेत्रफल: 4000 वर्ग फुट।", en: "Land required: 4000 sq ft." },
+      { hi: "भूमि दान करने के इच्छुक श्रद्धालु कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।", en: "If you wish to donate land, please contact the members listed on the Team page." }
     ],
+    link: { href: "team.html", text: { hi: "टीम पेज देखें", en: "See the Team page" } },
     target: "", raised: ""
   },
   {
@@ -131,41 +150,44 @@ window.YOJANA = [
       en: "We are working to build a Sant Shala within the mandir premises, where monks and sadhvis can stay and practise."
     },
     details: [
-      { hi: "SAMPLE: अनुमानित लागत, नक्शा और निर्माण की स्थिति यहाँ लिखें।", en: "SAMPLE: Write the estimated cost, plan and stage of construction." }
+      { hi: "संत शाला से संबंधित जानकारी के लिए कृपया टीम से संपर्क करें।", en: "For information about the Sant Shala, please connect with the Team." }
     ],
+    link: { href: "team.html", text: { hi: "टीम पेज देखें", en: "See the Team page" } },
     target: "", raised: ""
   },
   {
     id: "murti-mahavir",
     status: "active",
-    title: { hi: "भगवान महावीर स्वामी की नई मूर्ति", en: "New murti of Bhagwan Mahavir Swami" },
+    title: { hi: "भगवान महावीर स्वामी की नई प्रतिमा", en: "New Pratima of Bhagwan Mahavir Swami" },
     short: {
-      hi: "मंदिर में विराजमान करने के लिए भगवान महावीर स्वामी की नई मूर्ति।",
-      en: "A new murti of Bhagwan Mahavir Swami to be installed in the mandir."
+      hi: "मंदिर जी में विराजमान की जाने वाली भगवान महावीर स्वामी की नई प्रतिमा।",
+      en: "A new pratima of Bhagwan Mahavir Swami to be installed in the mandir."
     },
     summary: {
-      hi: "मंदिर में विराजमान करने के लिए भगवान महावीर स्वामी की नई मूर्ति की व्यवस्था की जा रही है।",
-      en: "We are arranging a new murti of Bhagwan Mahavir Swami to be installed in the mandir."
+      hi: "भगवान महावीर स्वामी की नई प्रतिमा मंदिर जी में विराजमान की जाएगी।",
+      en: "A new pratima of Bhagwan Mahavir Swami will be installed in the mandir."
     },
     details: [
-      { hi: "SAMPLE: मूर्ति का आकार, सामग्री और प्रतिष्ठा की संभावित तिथि।", en: "SAMPLE: Size and material of the murti, and the likely date of pratishtha." }
+      { hi: "8 इंच की अष्टधातु की प्रतिमा।", en: "An 8 inch pratima made of ashtadhatu (eight metals)." },
+      { hi: "प्रतिमा की प्रतिष्ठा मुंबई में नवंबर 2026 में होने वाले पंचकल्याणक में की जाएगी।", en: "The pratima will be consecrated at the Panchkalyanak to be held in Mumbai in November 2026." }
     ],
     target: "", raised: ""
   },
   {
     id: "murti-munisuvratnath",
     status: "active",
-    title: { hi: "भगवान मुनिसुव्रतनाथ की नई मूर्ति", en: "New murti of Bhagwan Munisuvratnath" },
+    title: { hi: "भगवान मुनिसुव्रतनाथ की नई प्रतिमा", en: "New Pratima of Bhagwan Munisuvratnath" },
     short: {
-      hi: "मंदिर में विराजमान करने के लिए भगवान मुनिसुव्रतनाथ की नई मूर्ति।",
-      en: "A new murti of Bhagwan Munisuvratnath to be installed in the mandir."
+      hi: "मंदिर जी में विराजमान की जाने वाली भगवान मुनिसुव्रतनाथ की नई प्रतिमा।",
+      en: "A new pratima of Bhagwan Munisuvratnath to be installed in the mandir."
     },
     summary: {
-      hi: "मंदिर में विराजमान करने के लिए भगवान मुनिसुव्रतनाथ की नई मूर्ति की व्यवस्था की जा रही है।",
-      en: "We are arranging a new murti of Bhagwan Munisuvratnath to be installed in the mandir."
+      hi: "भगवान मुनिसुव्रतनाथ की नई प्रतिमा मंदिर जी में विराजमान की जाएगी।",
+      en: "A new pratima of Bhagwan Munisuvratnath will be installed in the mandir."
     },
     details: [
-      { hi: "SAMPLE: मूर्ति का आकार, सामग्री और प्रतिष्ठा की संभावित तिथि।", en: "SAMPLE: Size and material of the murti, and the likely date of pratishtha." }
+      { hi: "8 इंच की अष्टधातु की प्रतिमा।", en: "An 8 inch pratima made of ashtadhatu (eight metals)." },
+      { hi: "प्रतिमा की प्रतिष्ठा मुंबई में नवंबर 2026 में होने वाले पंचकल्याणक में की जाएगी।", en: "The pratima will be consecrated at the Panchkalyanak to be held in Mumbai in November 2026." }
     ],
     target: "", raised: ""
   },
@@ -215,25 +237,27 @@ window.ANNOUNCEMENTS = [
 // To remove a karyakram: delete its whole { ... }, block, or add  hidden: true,  inside it.
 window.EVENTS = [
   {
-    date: "2026-11-15", time: { hi: "सुबह 8:00", en: "8:00 AM" },
-    place: { hi: "मुख्य हॉल", en: "Main hall" },
-    type: { hi: "पूजा", en: "Pooja" },
-    title: { hi: "SAMPLE: मासिक स्नात्र पूजा", en: "SAMPLE: Monthly Snatra Pooja" },
-    text: { hi: "सभी का स्वागत है। क्या लाना है और कहाँ बैठना है, यहाँ लिखें।", en: "All are welcome. Add what to bring and where to sit." }
-  },
-  {
-    date: "2026-11-22", endDate: "2026-11-24", time: { hi: "सुबह 9:00", en: "9:00 AM" },
-    place: { hi: "प्रवचन हॉल", en: "Pravachan hall" },
-    type: { hi: "प्रवचन", en: "Pravachan" },
-    title: { hi: "SAMPLE: गुरु भगवंत का प्रवचन", en: "SAMPLE: Pravachan by Guru Bhagwant" },
-    text: { hi: "आने वाले संत का नाम और रजिस्ट्रेशन की जानकारी लिखें।", en: "Add the name of the guest and any registration details." }
-  },
-  {
-    date: "2026-09-10", time: { hi: "सुबह 7:00", en: "7:00 AM" },
-    place: { hi: "मंदिर परिसर", en: "Mandir premises" },
+    date: "2026-11-09", time: { hi: "सुबह 7:00", en: "7:00 AM" },
+    place: { hi: "मंदिर जी", en: "Mandir ji" },
     type: { hi: "उत्सव", en: "Utsav" },
-    title: { hi: "SAMPLE: वार्षिक ध्वजारोहण", en: "SAMPLE: Annual Dhwajarohan" },
-    text: { hi: "यह बीत चुका है, इसलिए 'बीते हुए' टैब में दिखेगा।", en: "This one is in the past, so it shows under the Past tab." }
+    title: { hi: "लाडू कार्यक्रम: भगवान महावीर स्वामी का मोक्ष कल्याणक", en: "Laddu Karyakram: Moksha Kalyanak of Bhagwan Mahavir Swami" },
+    text: {
+      hi: "भगवान महावीर स्वामी के मोक्ष कल्याणक के अवसर पर मंदिर जी में लाडू कार्यक्रम होगा। सभी श्रद्धालु आमंत्रित हैं।",
+      en: "A Laddu Karyakram will be held at the mandir on the occasion of the Moksha Kalyanak of Bhagwan Mahavir Swami. All devotees are welcome."
+    }
+  },
+
+  // TEMPLATE for the next karyakram. It is hidden. To use it: remove the line  hidden: true,
+  // and change the text. To add one more, copy the whole { ... }, block.
+  // home: false  keeps a karyakram off the Home page (it still shows on the Karyakram page).
+  // To take a karyakram off the website later: delete its { ... }, block, or add  hidden: true,
+  {
+    hidden: true,
+    date: "2026-12-01", time: { hi: "सुबह 8:00", en: "8:00 AM" },
+    place: { hi: "मंदिर जी", en: "Mandir ji" },
+    type: { hi: "पूजा", en: "Pooja" },
+    title: { hi: "SAMPLE: कार्यक्रम का नाम", en: "SAMPLE: Name of the karyakram" },
+    text: { hi: "SAMPLE: कार्यक्रम की जानकारी यहाँ लिखें।", en: "SAMPLE: Write the details of the karyakram here." }
   }
 ];
 
@@ -279,18 +303,14 @@ window.CALENDAR = [
 window.GALLERY = {
   photos: [
     {
-      id: "sample-aarti", date: "2026-10-01",
-      title: { hi: "SAMPLE: शाम की आरती", en: "SAMPLE: Evening Aarti" },
-      description: { hi: "इन नमूना फोटो की जगह असली फोटो लगाएं।", en: "Replace these sample pictures with real photos." },
-      folder: "images/gallery",
-      files: [
-        { file: "sample-1.svg", caption: { hi: "नमूना फोटो 1", en: "Sample photo 1" } },
-        { file: "sample-2.svg", caption: { hi: "नमूना फोटो 2", en: "Sample photo 2" } },
-        { file: "sample-3.svg", caption: { hi: "नमूना फोटो 3", en: "Sample photo 3" } },
-        { file: "sample-4.svg", caption: { hi: "नमूना फोटो 4", en: "Sample photo 4" } }
-      ]
+      id: "vedi-pratishtha", date: "2026-05-09",
+      title: { hi: "वेदी प्रतिष्ठा", en: "Vedi Pratishtha" },
+      description: { hi: "", en: "" },
+      // Upload the photos into this folder on GitHub. They then appear here by themselves.
+      folder: "images/gallery/vedi-pratishtha"
     },
     {
+      hidden: true,
       id: "sample-utsav", date: "2026-09-10",
       title: { hi: "SAMPLE: वार्षिक उत्सव", en: "SAMPLE: Annual Utsav" },
       description: { hi: "", en: "" },
@@ -303,6 +323,7 @@ window.GALLERY = {
   ],
   videos: [
     {
+      hidden: true,
       id: "sample-videos", date: "2026-10-01",
       title: { hi: "SAMPLE: आरती के वीडियो", en: "SAMPLE: Aarti videos" },
       description: { hi: "यहाँ YouTube वीडियो का लिंक डालें।", en: "Paste your YouTube video links here." },
@@ -314,10 +335,20 @@ window.GALLERY = {
 };
 
 /* ---------- 8. Team ---------- */
-// photo is optional, e.g. "images/team/name.jpg". Without it, initials show.
-// name can be plain text or { hi: "...", en: "..." }.
+// HOW TO CHANGE THE TEAM (all on GitHub, in this file):
+//  - Add a person: copy one line  { name: "...", role: {...}, phone: "", photo: "" },  inside "members", paste it, edit it.
+//      name   the person's name (plain text, or { hi: "...", en: "..." })
+//      role   the responsibility, in Hindi and English
+//      phone  mobile number, e.g. "+91 98765 43210". Shown under the name, tap to call. "" hides it.
+//      photo  optional, e.g. "images/team/name.jpg". Without it, the initials show.
+//  - Remove a person: delete that whole line.
+//  - Add a new group (like "Sevaks"): copy a whole  { group: {...}, members: [ ... ] },  block and edit it.
+//  - Hide a group for now: add  hidden: true,  inside its block (as Trustees below).
 window.TEAM = [
   {
+    // Trustees are hidden for now (everyone is on the working committee at the moment).
+    // When trustees are appointed, delete the line "hidden: true," and fill in the names.
+    hidden: true,
     group: { hi: "ट्रस्टी", en: "Trustees" },
     members: [
       { name: "SAMPLE Name One", role: { hi: "अध्यक्ष", en: "President" }, phone: "", photo: "" },
@@ -333,7 +364,7 @@ window.TEAM = [
     ]
   },
   {
-    group: { hi: "पुजारी और सेवक", en: "Pujari and sevaks" },
+    group: { hi: "पुजारी", en: "Pujari" },
     members: [
       { name: "SAMPLE Name Six", role: { hi: "पुजारी", en: "Pujari" }, phone: "", photo: "" }
     ]
@@ -349,16 +380,12 @@ window.ABOUT = [
     title: { hi: "मंदिर के बारे में", en: "About the mandir" },
     paragraphs: [
       {
-        hi: "श्री 1008 नेमिनाथ जिनालय, नेमिधाम भगवान नेमिनाथ को समर्पित जैन मंदिर है।",
-        en: "Shri 1008 Neminath Jinalay, Nemidham is a Jain mandir dedicated to Bhagwan Neminath."
+        hi: "श्री 1008 नेमिनाथ दिगंबर जैन मंदिर, नेमिधाम भगवान नेमिनाथ को समर्पित जैन मंदिर है।",
+        en: "Shri 1008 Neminath Digambar Jain Mandir, Nemidham is a Jain mandir dedicated to Bhagwan Neminath."
       },
       {
         hi: "मंदिर बना हुआ है और अभी धार्मिक कार्य के लिए 3 साल के लिए दान की गई भूमि पर है। मंदिर की अपनी भूमि के लिए भूमि दान लिया जा रहा है और विकास जारी है।",
         en: "The mandir is built and, for now, stands on land given for religious use for 3 years. Bhumi daan is being accepted for the mandir's own land, and development is going on."
-      },
-      {
-        hi: "SAMPLE: मंदिर की स्थापना किसने की, समाज कैसे जुड़ा और अब तक के ख़ास पल यहाँ लिखें। दो-तीन छोटे अनुच्छेद काफ़ी हैं।",
-        en: "SAMPLE: Write who started the mandir, how the community came together, and important moments so far. Two or three short paragraphs are enough."
       }
     ]
   },
@@ -397,20 +424,31 @@ window.ABOUT = [
 
 /* ---------- 10. How to reach ---------- */
 // Add or remove blocks. "title" and "text" can be edited freely.
+// hidden: true  hides a block without deleting it (the Parking block below is hidden for now).
 window.HOWTO = [
   {
     title: { hi: "सड़क से", en: "By road" },
-    text: { hi: "SAMPLE: नज़दीकी शहर या हाईवे से मंदिर तक का रास्ता और दूरी लिखें।", en: "SAMPLE: Write the route and distance to the mandir from the nearest city or highway." }
+    text: {
+      hi: "खराडी, पुणे से नगर रोड पर वाघोली की ओर आएं और बकोरी रोड पर मंदिर पहुँचें। खराडी से दूरी लगभग 10 किमी है।",
+      en: "From Kharadi, Pune, take Nagar Road towards Wagholi, then Bakori Road to reach the mandir. It is about 10 km from Kharadi."
+    }
   },
   {
     title: { hi: "रेल से", en: "By rail" },
-    text: { hi: "SAMPLE: नज़दीकी रेलवे स्टेशन का नाम और वहाँ से दूरी लिखें।", en: "SAMPLE: Write the nearest railway station and its distance from the mandir." }
+    text: {
+      hi: "सबसे नज़दीकी स्टेशन पुणे रेलवे स्टेशन है, जो लगभग 18 किमी दूर है। हडपसर रेलवे स्टेशन लगभग 14 किमी दूर है।",
+      en: "The nearest station is Pune Railway Station, about 18 km away. Hadapsar Railway Station is about 14 km away."
+    }
   },
   {
     title: { hi: "हवाई जहाज़ से", en: "By air" },
-    text: { hi: "SAMPLE: नज़दीकी एयरपोर्ट का नाम और वहाँ से दूरी लिखें।", en: "SAMPLE: Write the nearest airport and its distance from the mandir." }
+    text: {
+      hi: "सबसे नज़दीकी हवाई अड्डा पुणे अंतरराष्ट्रीय हवाई अड्डा, विमान नगर है, जो लगभग 14 किमी दूर है।",
+      en: "The nearest airport is Pune International Airport, Viman Nagar, about 14 km away."
+    }
   },
   {
+    hidden: true,
     title: { hi: "पार्किंग और सुविधाएं", en: "Parking and facilities" },
     text: { hi: "SAMPLE: पार्किंग, पीने का पानी आदि की जानकारी लिखें।", en: "SAMPLE: Write about parking, drinking water and other facilities." }
   }
@@ -425,23 +463,20 @@ window.DAAN = {
     hi: "आपका दान मंदिर की रोज़ की पूजा, मंदिर के रखरखाव और ऊपर दी गई योजनाओं में काम आता है। आपके सहयोग के लिए धन्यवाद।",
     en: "Your daan supports daily pooja, the upkeep of the mandir and the yojanayen listed on this website. Thank you for your support."
   },
-  upiId: "SAMPLE-add-your-upi-id",
-  qrImage: "",     // e.g. "images/upi-qr.png" after you upload the QR picture
+  upiId: "eazypay.mxv8ofmr7akehh1@icici",
+  qrImage: "images/upi-qr.png",     // shown just below the UPI ID
   bank: [
-    { label: { hi: "खाते का नाम", en: "Account name" }, value: "SAMPLE: Trust name" },
-    { label: { hi: "बैंक", en: "Bank" }, value: "SAMPLE: Bank name" },
-    { label: { hi: "खाता संख्या", en: "Account number" }, value: "SAMPLE-add-account-number", copy: true },
-    { label: { hi: "IFSC", en: "IFSC" }, value: "SAMPLE-add-ifsc", copy: true },
-    { label: { hi: "शाखा", en: "Branch" }, value: "SAMPLE: Branch" }
+    { label: { hi: "खाते का नाम", en: "Account name" }, value: "Jain Shravak Sangh" },
+    { label: { hi: "बैंक", en: "Bank" }, value: "ICICI Bank" },
+    { label: { hi: "खाता संख्या", en: "Account number" }, value: "172705005064", copy: true },
+    { label: { hi: "IFSC", en: "IFSC" }, value: "ICIC0001727", copy: true },
+    { label: { hi: "शाखा", en: "Branch" }, value: "Wagholi" }
   ],
   inPerson: {
     hi: "आप मंदिर कार्यालय में खुलने के समय में भी दान दे सकते हैं। रसीद दी जाएगी।",
     en: "You can also give daan at the mandir office during opening hours. A receipt will be given."
   },
-  note: {
-    hi: "पैसे भेजने से पहले कृपया ये जानकारी ट्रस्टियों से एक बार पक्की कर लें।",
-    en: "Please check these details with the trustees before you transfer money."
-  }
+  note: { hi: "", en: "" }
 };
 
 /* Regular daan and seva (every week / every month) */
@@ -462,34 +497,39 @@ window.RECURRING = [
     title: { hi: "साप्ताहिक शांतिधारा", en: "Saptahik Shantidhara" },
     when: { hi: "हर हफ्ते", en: "Every week" },
     text: {
-      hi: "हर हफ्ते शांतिधारा होती है। पुण्यार्जक बनकर आप इसमें भाग ले सकते हैं।",
-      en: "Shantidhara is held every week. You can take part as a punyarjak."
+      hi: "हर महीने के हर सप्ताह में किसी एक दिन, किसी एक पुण्यार्जक के नाम से शांतिधारा होती है।",
+      en: "In every week of the month, on one day, Shantidhara is held in the name of one punyarjak."
     },
     how: {
-      hi: "SAMPLE: दिन, समय और पुण्यार्जक बनने के लिए किससे संपर्क करें, यहाँ लिखें।",
-      en: "SAMPLE: Write the day, time and who to contact to become a punyarjak."
+      hi: "पुण्यार्जक बनने के लिए कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।",
+      en: "To become a punyarjak, please contact the members listed on the Team page."
     }
   },
   {
     title: { hi: "मासिक शांतिधारा", en: "Masik Shantidhara" },
     when: { hi: "हर महीने", en: "Every month" },
     text: {
-      hi: "हर महीने शांतिधारा होती है। पुण्यार्जक बनकर आप इसमें भाग ले सकते हैं।",
-      en: "Shantidhara is held every month. You can take part as a punyarjak."
+      hi: "हर महीने किसी एक दिन, किसी एक पुण्यार्जक के नाम से मासिक शांतिधारा होती है।",
+      en: "Every month, on one day, Masik Shantidhara is held in the name of one punyarjak."
     },
     how: {
-      hi: "SAMPLE: तिथि, समय और पुण्यार्जक बनने के लिए किससे संपर्क करें, यहाँ लिखें।",
-      en: "SAMPLE: Write the date, time and who to contact to become a punyarjak."
+      hi: "पुण्यार्जक बनने के लिए कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।",
+      en: "To become a punyarjak, please contact the members listed on the Team page."
     }
   }
 ];
 
-/* Shantidhara punyarjak list (optional). kind: "saptahik" or "masik".
-   Delete all rows to hide the table. Only add a name with the person's permission. */
+/* Shantidhara punyarjak list. Shown on the Daan page as a calendar-style table, month by month,
+   with Saptahik and Masik dates told apart by colour, and a filter to show only one kind.
+   kind: "saptahik" or "masik".   date: "YYYY-MM-DD".   name: the punyarjak (plain text or { hi, en }).
+   TO ADD: copy one line, paste it, change date / kind / name.
+   TO REMOVE: delete the line, or add  hidden: true  to it.
+   If there are no rows, the table does not show. Only add a name with that person's permission. */
 window.PUNYARJAK = [
-  { date: "2026-11-01", kind: "saptahik", name: "SAMPLE Name" },
-  { date: "2026-11-08", kind: "saptahik", name: "SAMPLE Name" },
-  { date: "2026-11-15", kind: "masik", name: "SAMPLE Name" }
+  // { date: "2026-11-02", kind: "saptahik", name: "SAMPLE Name" },
+  // { date: "2026-11-09", kind: "saptahik", name: "SAMPLE Name" },
+  // { date: "2026-11-16", kind: "saptahik", name: "SAMPLE Name" },
+  // { date: "2026-11-15", kind: "masik", name: "SAMPLE Name" }
 ];
 
 /* ---------- 12. Trust and 80G details (shown on the Daan page) ---------- */
@@ -512,9 +552,8 @@ window.TRUST = {
   }
 };
 
-/* Masik Dravya Daan: list of donors (optional). Delete all rows to hide the table.
+/* Masik Dravya Daan: list of donors. If there are no rows, the table does not show.
    Only add a name with the person's permission. */
 window.DRAVYA = [
-  { date: "2026-11-01", name: "SAMPLE Name" },
-  { date: "2026-10-01", name: "SAMPLE Name" }
+  // { date: "2026-11-01", name: "SAMPLE Name" }
 ];

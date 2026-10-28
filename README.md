@@ -1,4 +1,4 @@
-# Neminath Jinalay, Nemidham: website guide
+# Shri 1008 Neminath Digambar Jain Mandir, Nemidham: website guide
 
 This is a plain website (HTML, CSS, JavaScript). No WordPress, no database, no monthly fee. It works on phones, tablets, laptops and desktops.
 
@@ -18,7 +18,8 @@ This is a plain website (HTML, CSS, JavaScript). No WordPress, no database, no m
 | `contact.html` | Old link, forwards to `visit.html` |
 | `gallery-helper.html` | Helper: album ka code banata hai (copy-paste ke liye) |
 | `check.html` | Check page: `data.js` ki galtiyan dhoondhta hai |
-| `images/jain-symbol.svg` | Jain chinh (header logo). Apna logo ho to `SITE.logo` mein naam badlein |
+| `images/mandir-logo.png` | Mandir ka logo (header, favicon). Apna logo badalna ho to `SITE.logo` mein naya naam likhein |
+| `images/upi-qr.png` | Daan page par dikhne wala UPI QR code |
 | `js/data.js` | **All the content. This is the file you edit.** |
 | `images/` | Your photos |
 
@@ -26,6 +27,8 @@ This is a plain website (HTML, CSS, JavaScript). No WordPress, no database, no m
 
 Open `js/data.js` and replace everything marked **SAMPLE** with real details:
 address, phone, announcements, karyakram, team, about text, and especially the **daan details**. Wrong bank or UPI details could send money to the wrong place, so check them with the trustees.
+
+Photo albums: upload your photos into the folder named in `data.js` (e.g. `images/gallery/vedi-pratishtha/`) on GitHub. If the album has no `files` list, the photos appear by themselves within a few minutes.
 
 ## How to put it online for free
 
@@ -72,4 +75,22 @@ The site is built so that all words live in `js/data.js` and `js/main.js`. When 
 Hindi opens first. Visitors tap the English button in the menu. Every text in `js/data.js` is written as `{ hi: "...", en: "..." }`. Menu and button words are in `js/i18n.js`.
 
 ## Links, map and banner
-In `js/data.js` fill `LINKS` (WhatsApp, Facebook, Instagram, YouTube, section 0 at the top), `mapEmbed` (Google Maps, Share, Embed a map, src link), `mapLink` and `phone`. Empty items stay hidden. `BANNER` controls the gold strip on top. `showTimings: false` hides the "Open now" box.
+In `js/data.js` fill `LINKS` (WhatsApp, Facebook, Instagram, YouTube, section 0 at the top), `mapEmbed` (Google Maps, Share, Embed a map, src link), `mapLink` and `phone`. Social icons always show; a link with `""` stays greyed out and cannot be clicked, fill it to make it active. `BANNER` controls the gold strip on top. `showTimings: false` hides the "Open now" box.
+
+## Yojanayen, karyakram and the home page
+- Har yojana mein `home: false` likhne se wo sirf Yojanayen page par dikhegi, Home par nahi. `hidden: true` se wo poori site se hat jaati hai.
+- Naya karyakram jodhna ho: `EVENTS` mein ek `{ ... }` block copy-paste karke date, time, title badal dein. Home page apne aap aane wale 3 karyakram dikhata hai; ek karyakram ko Home se hatana ho (list par rakhte hue) to usme `home: false` likhein.
+- Purana karyakram hatana ho: us block mein `hidden: true` likh dein, ya poora block hata dein.
+
+## Visitor count aur Google Analytics
+- `SITE.analyticsId` mein apna Google Analytics Measurement ID (G-... se shuru) likhein. Yeh numbers sirf aapko analytics.google.com par dikhte hain, visitors ko nahi.
+- Footer mein public visitor count dikhana ho to goatcounter.com par ek free site banayein aur uska code `SITE.goatcounter` mein likhein. Khali chhodne par count nahi dikhta.
+
+## "Website by" credit
+Footer ke neeche daayein kone mein ek chhota credit line hai. Naam ya link badalna ho to `SITE.credit` mein; hatana ho to `credit: null` likh dein.
+
+## Home page slideshow
+Home page par gallery ki sabhi albums se random photos ka slideshow chalta hai. `SITE.slideshow` mein `enabled: false` likhne se yeh band ho jaata hai aur sidha 4 photos dikhti hain; `count` aur `seconds` se photos ki sankhya aur speed badal sakte hain.
+
+## Shantidhara punyarjak table
+`PUNYARJAK` mein har row ek din ka punyarjak hai: `date`, `kind` ("saptahik" ya "masik"), aur `name`. Daan page par yeh mahine-waar table mein dikhte hain, saptahik aur masik alag rang se, aur visitor filter karke dekh sakte hain. Koi row na ho to table dikhta hi nahi.
