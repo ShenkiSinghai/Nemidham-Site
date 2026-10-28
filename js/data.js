@@ -79,7 +79,7 @@ window.SITE = {
   // Visible visitor count shown in the footer (the public number everyone sees, not just you).
   // Make a free account at goatcounter.com (2 minutes, see README), then write its "site code" here
   // (if your dashboard is at nemidham.goatcounter.com, the code is "nemidham"). Leave "" to hide it.
-  goatcounter: "",
+  goatcounter: "nemidham",
 
   // Small credit shown at the bottom right of the footer. Set credit: null to hide it.
   credit: { name: "Shenki Singhai", url: "https://www.linkedin.com/in/shenki-singhai-20882061" },
@@ -216,15 +216,15 @@ window.YOJANA = [
 window.ANNOUNCEMENTS = [
   {
     date: "2026-10-26", pinned: true,
-    title: { hi: "SAMPLE: हमारी नई वेबसाइट में आपका स्वागत है", en: "SAMPLE: Welcome to our new website" },
+    title: { hi: "हमारी नई वेबसाइट में आपका स्वागत है", en: "Welcome to our new website" },
     text: {
-      hi: "जय जिनेन्द्र। कार्यक्रम, तस्वीरें, योजनाएं और दान की जानकारी अब एक ही जगह है। इस सूचना की जगह अपनी सूचना लिखें।",
-      en: "Jai Jinendra. Karyakram, photos, yojanayen and daan details are now in one place. Replace this announcement with your own."
+      hi: "जय जिनेन्द्र। कार्यक्रम, तस्वीरें, योजनाएं और दान की जानकारी अब एक ही जगह है।",
+      en: "Jai Jinendra. Karyakram, photos, yojanayen and daan details are now in one place."
     }
   },
   {
     date: "2026-10-20", pinned: false,
-    title: { hi: "SAMPLE: त्योहार के दिनों में दर्शन का समय", en: "SAMPLE: Darshan timings on festival days" },
+    title: { hi: "त्योहार के दिनों में दर्शन का समय", en: "Darshan timings on festival days" },
     text: {
       hi: "विशेष दिनों में समय बदल सकता है। जानकारी कुछ दिन पहले यहाँ दी जाएगी।",
       en: "On special days the timings may change. We will post the details here a few days before."
@@ -308,8 +308,11 @@ window.GALLERY = {
       id: "vedi-pratishtha", date: "2026-05-09",
       title: { hi: "वेदी प्रतिष्ठा", en: "Vedi Pratishtha" },
       description: { hi: "", en: "" },
-      // Upload the photos into this folder on GitHub. They then appear here by themselves.
-      folder: "images/gallery/vedi-pratishtha"
+      folder: "images/gallery/vedi-pratishtha",
+      // SAMPLE photos below, just so you can see the slideshow working. Delete this files
+      // line (and these 5 sample-*.jpg files from images/gallery/vedi-pratishtha/) once you
+      // upload your real photos, then the site will list your folder's photos by itself.
+      files: ["sample-1.jpg", "sample-2.jpg", "sample-3.jpg", "sample-4.jpg", "sample-5.jpg"]
     },
     {
       hidden: true,
@@ -528,10 +531,14 @@ window.RECURRING = [
    TO REMOVE: delete the line, or add  hidden: true  to it.
    If there are no rows, the table does not show. Only add a name with that person's permission. */
 window.PUNYARJAK = [
-  // { date: "2026-11-02", kind: "saptahik", name: "SAMPLE Name" },
-  // { date: "2026-11-09", kind: "saptahik", name: "SAMPLE Name" },
-  // { date: "2026-11-16", kind: "saptahik", name: "SAMPLE Name" },
-  // { date: "2026-11-15", kind: "masik", name: "SAMPLE Name" }
+  // --- SAMPLE rows below, just to show how the table looks. Delete all of them before you publish. ---
+  { date: "2026-11-03", kind: "saptahik", name: "SAMPLE Name One" },
+  { date: "2026-11-03", kind: "saptahik", name: "SAMPLE Name Two" },
+  { date: "2026-11-10", kind: "saptahik", name: "SAMPLE Name One" },
+  { date: "2026-11-15", kind: "masik", name: "SAMPLE Name Three" },
+  { date: "2026-12-01", kind: "saptahik", name: "SAMPLE Name One" },
+  { date: "2026-12-15", kind: "masik", name: "SAMPLE Name Three" },
+  { date: "2026-12-15", kind: "masik", name: "SAMPLE Name Four" }
 ];
 
 /* ---------- 12. Trust and 80G details (shown on the Daan page) ---------- */
@@ -557,5 +564,7 @@ window.TRUST = {
 /* Masik Dravya Daan: list of donors. If there are no rows, the table does not show.
    Only add a name with the person's permission. */
 window.DRAVYA = [
-  // { date: "2026-11-01", name: "SAMPLE Name" }
+  // --- SAMPLE rows below, just to show how the table looks. Delete all of them before you publish. ---
+  { date: "2026-11-01", name: "SAMPLE Name One" },
+  { date: "2026-10-01", name: "SAMPLE Name Two" }
 ];

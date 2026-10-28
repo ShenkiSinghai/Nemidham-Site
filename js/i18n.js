@@ -80,7 +80,7 @@ window.UI = {
     "kind.saptahik": "साप्ताहिक शांतिधारा", "kind.masik": "मासिक शांतिधारा",
     "d.soon": "दान की जानकारी जल्द जोड़ी जाएगी। कृपया मंदिर कार्यालय से संपर्क करें।",
     "d.trust": "ट्रस्ट और 80G की जानकारी", "d.trust_soon": "ट्रस्ट और 80G की जानकारी जल्द जोड़ी जाएगी।",
-    "d.thanks": "आपके दान के लिए हृदय से धन्यवाद। बहुत-बहुत अनुमोदना। जय जिनेन्द्र।",
+    "d.thanks": "आपके दान के लिए हृदय से धन्यवाद। बहुत-बहुत अनुमोदना। जय जिनेन्द्र। 🙏",
     "copy": "कॉपी", "copied": "कॉपी हो गया", "copyfail": "चुनकर कॉपी करें",
 
     "v.map": "नक्शा", "v.open": "Google Maps में खोलें", "v.nomap": "नक्शा जल्द जोड़ा जाएगा।",
@@ -174,7 +174,7 @@ window.UI = {
     "kind.saptahik": "Saptahik Shantidhara", "kind.masik": "Masik Shantidhara",
     "d.soon": "Daan details will be added soon. Please contact the mandir office.",
     "d.trust": "Trust and 80G details", "d.trust_soon": "Trust and 80G details will be added soon.",
-    "d.thanks": "Heartfelt thanks for your daan. Many, many anumodana. Jai Jinendra.",
+    "d.thanks": "Heartfelt thanks for your daan. Bahut bahut anumodna. Jai Jinendra. 🙏",
     "copy": "Copy", "copied": "Copied", "copyfail": "Select and copy",
 
     "v.map": "Map", "v.open": "Open in Google Maps", "v.nomap": "The map will be added soon.",

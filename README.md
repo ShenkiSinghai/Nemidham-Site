@@ -96,5 +96,10 @@ Footer ke neeche daayein kone mein ek chhota credit line hai. Naam ya link badal
 ## Home page slideshow
 Home page par gallery ki sabhi albums se random photos ka slideshow chalta hai. `SITE.slideshow` mein `enabled: false` likhne se yeh band ho jaata hai aur sidha 4 photos dikhti hain; `count` aur `seconds` se photos ki sankhya aur speed badal sakte hain.
 
+Abhi `images/gallery/vedi-pratishtha/` folder mein 5 **sample** photos (`sample-1.jpg` se `sample-5.jpg`) daali gayi hain, sirf yeh dikhane ke liye ki slideshow kaise chalta hai. Apni real photos lagane ke liye:
+1. `images/gallery/vedi-pratishtha/` mein apni photos upload karein (GitHub par "Add file → Upload files").
+2. `js/data.js` mein `vedi-pratishtha` album dhoondein aur usme jo `files: [...]` line hai usme se `sample-1.jpg` jaisi saari sample entries hata kar apni photos ke naam likh dein — ya pura `files: [...]` line hata dein, tab site folder ki saari photos khud hi dikha degi.
+3. Purani 5 sample-*.jpg files ko `images/gallery/vedi-pratishtha/` se delete kar dein.
+
 ## Shantidhara punyarjak table
 `PUNYARJAK` mein har row ek din ka punyarjak hai: `date`, `kind` ("saptahik" ya "masik"), aur `name`. Daan page par yeh mahine-waar table mein dikhte hain, saptahik aur masik alag rang se, aur visitor filter karke dekh sakte hain. Koi row na ho to table dikhta hi nahi.

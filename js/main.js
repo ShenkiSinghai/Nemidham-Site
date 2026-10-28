@@ -277,7 +277,7 @@
     put("site-footer",
       '<footer class="site"><div class="wrap"><div class="foot-grid">' +
       '<div><p class="foot-name">' + esc(L(S.name)) + "</p><p class=\"foot-addr\">" + addr + "</p></div>" +
-      '<div><ul class="foot-links">' + links + "</ul><div class=\"foot-social\">" + socialIconsHtml("ficon") + "</div></div></div>" +
+      '<div><ul class="foot-links">' + links + '</ul><p class="foot-follow-h">' + esc(t("v.follow")) + '</p><div class="foot-social">' + socialIconsHtml("ficon") + "</div></div></div>" +
       '<div class="foot-bottom"><p class="legal">' + esc(t("f.legal", { year: new Date().getFullYear(), name: L(S.name), place: L(S.place) })) + "</p>" +
       counterHtml() + cred + "</div></div></footer>");
   }
@@ -752,6 +752,8 @@
       }).join("") + "</div></section>";
     }
 
+    html += '<section id="yojana"><h2>' + esc(t("d.yojana")) + '</h2><p class="measure">' + esc(t("d.yojana_p")) + '</p><a class="btn btn-line" href="yojana.html">' + esc(t("d.yojana_btn")) + "</a></section>";
+
     var TR = window.TRUST || {};
     if (TR.enabled !== false) {
       var tr = (TR.items || []).filter(function (x) { return x.value; });
@@ -760,7 +762,13 @@
         : '<p class="empty">' + esc(t("d.trust_soon")) + "</p>") + (L(TR.note) ? '<p class="fine">' + esc(L(TR.note)) + "</p>" : "") + "</section>";
     }
 
-    html += '<section id="yojana"><h2>' + esc(t("d.yojana")) + '</h2><p class="measure">' + esc(t("d.yojana_p")) + '</p><a class="btn btn-line" href="yojana.html">' + esc(t("d.yojana_btn")) + "</a></section>";
+    var DR = vis(window.DRAVYA).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    html += '<section id="dravya"><h2>' + esc(t("d.dravya")) + "</h2>" + (DR.length
+      ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) +
+        '</th><th scope="col">' + esc(t("d.col_donor")) + "</th></tr></thead><tbody>" + DR.map(function (p) {
+          return "<tr><td>" + esc(longDate(p.date)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
+        }).join("") + "</tbody></table></div>"
+      : '<p class="empty">' + esc(t("empty.dravya")) + "</p>") + "</section>";
 
     var P = vis(window.PUNYARJAK).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + "</h2>" +
@@ -772,13 +780,6 @@
           '</div><div id="punya-body"></div>'
         : '<p class="empty">' + esc(t("empty.punya")) + "</p>") + "</section>";
     html += '<p class="thanks">' + esc(t("d.thanks")) + "</p>";
-    var DR = vis(window.DRAVYA).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    html = html.replace('<section id="yojana">', '<section id="dravya"><h2>' + esc(t("d.dravya")) + "</h2>" + (DR.length
-      ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) +
-        '</th><th scope="col">' + esc(t("d.col_donor")) + "</th></tr></thead><tbody>" + DR.map(function (p) {
-          return "<tr><td>" + esc(longDate(p.date)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
-        }).join("") + "</tbody></table></div>"
-      : '<p class="empty">' + esc(t("empty.dravya")) + "</p>") + '</section><section id="yojana">');
     host.innerHTML = html;
 
     if (P.length) {
