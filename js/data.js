@@ -75,8 +75,10 @@ window.SITE = {
 
   // Visitor numbers. analyticsId: Google Analytics, private numbers for you (analytics.google.com).
   analyticsId: "G-BWWJVYC4Q4",
-  // goatcounter: the public visitor count shown in the footer. Make a free site at goatcounter.com, then
-  // write only its code here (the first part of CODE.goatcounter.com). Leave "" to hide the count.
+
+  // Visible visitor count shown in the footer (the public number everyone sees, not just you).
+  // Make a free account at goatcounter.com (2 minutes, see README), then write its "site code" here
+  // (if your dashboard is at nemidham.goatcounter.com, the code is "nemidham"). Leave "" to hide it.
   goatcounter: "",
 
   // Small credit shown at the bottom right of the footer. Set credit: null to hide it.
@@ -489,16 +491,16 @@ window.RECURRING = [
       en: "Every month, items of any kind can be given as daan to the mandir, mainly pooja items. You can join too."
     },
     how: {
-      hi: "",
-      en: ""
+      hi: "सामग्री दान करने के लिए कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।",
+      en: "To give items as daan, please contact the members listed on the Team page."
     }
   },
   {
     title: { hi: "साप्ताहिक शांतिधारा", en: "Saptahik Shantidhara" },
     when: { hi: "हर हफ्ते", en: "Every week" },
     text: {
-      hi: "हर महीने के हर सप्ताह में किसी एक दिन, किसी एक पुण्यार्जक के नाम से शांतिधारा होती है।",
-      en: "In every week of the month, on one day, Shantidhara is held in the name of one punyarjak."
+      hi: "सप्ताह के किसी एक दिन (जैसे हर मंगलवार) के लिए एक या एक से अधिक श्रद्धालु अपना नाम दे सकते हैं। उस दिन हर हफ्ते उन्हीं पुण्यार्जकों के नाम से शांतिधारा होती है।",
+      en: "One or more devotees can give their name for a particular day of the week (for example, every Tuesday). On that day each week, Shantidhara is performed in the name of those punyarjaks."
     },
     how: {
       hi: "पुण्यार्जक बनने के लिए कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।",
@@ -509,8 +511,8 @@ window.RECURRING = [
     title: { hi: "मासिक शांतिधारा", en: "Masik Shantidhara" },
     when: { hi: "हर महीने", en: "Every month" },
     text: {
-      hi: "हर महीने किसी एक दिन, किसी एक पुण्यार्जक के नाम से मासिक शांतिधारा होती है।",
-      en: "Every month, on one day, Masik Shantidhara is held in the name of one punyarjak."
+      hi: "महीने की किसी एक तारीख के लिए एक या एक से अधिक श्रद्धालु अपना नाम दे सकते हैं। उस तारीख को हर महीने उन्हीं पुण्यार्जकों के नाम से शांतिधारा होती है।",
+      en: "One or more devotees can give their name for a particular date of the month. On that date each month, Shantidhara is performed in the name of those punyarjaks."
     },
     how: {
       hi: "पुण्यार्जक बनने के लिए कृपया टीम पेज पर दिए गए सदस्यों से संपर्क करें।",

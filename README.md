@@ -84,7 +84,11 @@ In `js/data.js` fill `LINKS` (WhatsApp, Facebook, Instagram, YouTube, section 0 
 
 ## Visitor count aur Google Analytics
 - `SITE.analyticsId` mein apna Google Analytics Measurement ID (G-... se shuru) likhein. Yeh numbers sirf aapko analytics.google.com par dikhte hain, visitors ko nahi.
-- Footer mein public visitor count dikhana ho to goatcounter.com par ek free site banayein aur uska code `SITE.goatcounter` mein likhein. Khali chhodne par count nahi dikhta.
+- Footer mein sabko dikhne wala public visitor count ke liye GoatCounter (free, reliable):
+  1. goatcounter.com par jaakar "Sign up" karein, koi bhi code chunein (jaise `nemidham`), email se account banayein.
+  2. Dashboard mein **Settings → Customise → Allow adding visitor counts on your website** ko ON karein, aur Save karein.
+  3. `js/data.js` mein `SITE.goatcounter` ke andar wahi code likhein (jaise `"nemidham"`, bina `.goatcounter.com` ke).
+  4. Site republish hone ke kuch der baad footer mein count dikhne lagega (naya visit count hone mein kabhi-kabhi kuch ghante lag sakte hain, GoatCounter ki apni caching ki wajah se). Khali chhodne par count nahi dikhta.
 
 ## "Website by" credit
 Footer ke neeche daayein kone mein ek chhota credit line hai. Naam ya link badalna ho to `SITE.credit` mein; hatana ho to `credit: null` likh dein.

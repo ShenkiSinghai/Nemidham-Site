@@ -105,17 +105,17 @@
     return SOCIAL.map(function (x) { return { url: s[x[0]] || "", label: t(x[1]), icon: x[2] }; });
   }
   var ICON_SVG = {
-    wa: '<path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 1.8a8.2 8.2 0 017 12.5l-.2.4.6 2.3-2.4-.6-.4.2a8.2 8.2 0 11-4.6-14.8zm-3.4 4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.2.2 2 3 4.7 4.2 2.3 1 2.7.8 3.2.8.5 0 1.6-.6 1.8-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3l-2-1c-.3-.1-.5-.1-.6.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.8-1.4-1.7-1.5-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.5-.4-.5-.6-.5h-.6z"/>',
-    fb: '<path d="M13.5 21v-7.6h2.6l.4-3h-3v-1.9c0-.9.2-1.5 1.6-1.5h1.6V4.2C16.3 4.1 15.3 4 14.2 4c-2.4 0-4 1.5-4 4.1v2.3H7.6v3h2.6V21h3.3z"/>',
-    ig: '<path d="M8 3h8a5 5 0 015 5v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5zm0 2a3 3 0 00-3 3v8a3 3 0 003 3h8a3 3 0 003-3V8a3 3 0 00-3-3H8zm4 3.5A4.5 4.5 0 1112 17a4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.2 6.8a1 1 0 110 2 1 1 0 010-2z"/>',
-    yt: '<path d="M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.6-.8-2-.9C15.9 4 12 4 12 4h0s-3.9 0-6.8.2c-.4 0-1.2.1-2 .9-.6.6-.8 2.1-.8 2.1S2.2 9 2.2 10.7v1.6C2.2 14 2.4 15.8 2.4 15.8s.2 1.5.8 2.1c.8.8 1.8.8 2.3.9 1.6.2 7 .2 7 .2s3.9 0 6.8-.3c.4 0 1.2-.1 2-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.5v-1.6c0-1.7-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/>'
+    wa: '<path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.355-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.593 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.339-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>',
+    fb: '<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>',
+    ig: '<path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.203.166 1.485.275.374.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>',
+    yt: '<path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>'
   };
   function socialIconsHtml(cls) {
     return socialList().map(function (s) {
-      var svg = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICON_SVG[s.icon] || "") + "</svg>";
+      var svg = '<svg viewBox="0 0 16 16" aria-hidden="true">' + (ICON_SVG[s.icon] || "") + "</svg>";
       return s.url
-        ? '<a class="' + cls + '" href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.label) + '">' + svg + "</a>"
-        : '<span class="' + cls + ' off" aria-hidden="true" title="' + esc(s.label) + '">' + svg + "</span>";
+        ? '<a class="' + cls + " " + cls + "-" + s.icon + '" href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.label) + '">' + svg + "</a>"
+        : '<span class="' + cls + " " + cls + "-" + s.icon + ' off" aria-hidden="true" title="' + esc(s.label) + '">' + svg + "</span>";
     }).join("");
   }
 
@@ -242,13 +242,32 @@
     gtag("js", new Date()); gtag("config", id);
     window.gtag = gtag;
   }
+  var GC_LOADED = false;
+  function gcCode() { return String(S.goatcounter || "").trim().replace(/[^a-z0-9-]/gi, ""); }
+  /* GoatCounter (goatcounter.com) tracks the visit; this is what makes the count in the footer go up.
+     It only loads if SITE.goatcounter has a code in js/data.js. */
+  function loadGoatCounter() {
+    if (GC_LOADED) return;
+    var code = gcCode();
+    if (!code) return;
+    GC_LOADED = true;
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://gc.zgo.at/count.js";
+    s.setAttribute("data-goatcounter", "https://" + code + ".goatcounter.com/count");
+    document.head.appendChild(s);
+  }
+  /* The little public number shown in the footer. It reads the count GoatCounter already has;
+     it can take up to a few hours after a visit for the number to update. */
   function counterHtml() {
-    var c = S.goatcounter;
-    if (!c) return "";
-    return '<p class="foot-count"><img alt="' + esc(t("f.visitors")) + '" src="https://' + esc(c) + '.goatcounter.com/count?p=' + encodeURIComponent(location.pathname) + '"></p>';
+    var code = gcCode();
+    if (!code) return "";
+    return '<p class="foot-count"><img alt="' + esc(t("f.visitors")) + '" loading="lazy" ' +
+      'onerror="this.parentNode.style.display=\'none\'" ' +
+      'src="https://' + code + '.goatcounter.com/counter/TOTAL.svg?no_branding=1"></p>';
   }
   function buildFooter() {
     loadAnalytics();
+    loadGoatCounter();
     var nameNow = String(L(S.name));
     var addr = (L(S.addressLines) || []).filter(function (a) { return String(L(a)).indexOf(nameNow) !== 0; }).map(function (a) { return esc(L(a)); }).join("<br>");
     var links = "";
@@ -700,6 +719,9 @@
 
   /* ---------- daan ---------- */
   function copyBtn(text) { return '<button class="copy" type="button" data-copy="' + esc(text) + '">' + esc(t("copy")) + "</button>"; }
+  function codeRow(label, value) {
+    return '<div class="coderow"><dt>' + esc(label) + '</dt><dd><code>' + esc(value) + "</code>" + copyBtn(value) + "</dd></div>";
+  }
   function renderDaan() {
     var D = window.DAAN || {};
     var host = document.getElementById("daan"); if (!host) return;
@@ -708,14 +730,14 @@
 
     var cards = "";
     if (D.upiId || D.qrImage) {
-      cards += '<div class="card"><h3>' + esc(t("d.upi")) + "</h3>" +
+      cards += '<div class="card card-upi"><h3>' + esc(t("d.upi")) + "</h3>" +
         (D.qrImage ? '<img class="qr" alt="' + esc(t("d.upi") + " QR, " + L(S.name)) + '" src="' + esc(D.qrImage) + '">' : "") +
-        (D.upiId ? '<dl class="rows"><div><dt>' + esc(t("d.upiid")) + "</dt><dd>" + esc(D.upiId) + " " + copyBtn(D.upiId) + "</dd></div></dl>" : "") + "</div>";
+        (D.upiId ? '<dl class="rows">' + codeRow(t("d.upiid"), D.upiId) + "</dl>" : "") + "</div>";
     }
     var bank = (D.bank || []).filter(function (b) { return b.value; });
     if (bank.length) {
       cards += '<div class="card"><h3>' + esc(t("d.bank")) + '</h3><dl class="rows">' + bank.map(function (b) {
-        return "<div><dt>" + esc(L(b.label)) + "</dt><dd>" + esc(L(b.value)) + (b.copy ? " " + copyBtn(L(b.value)) : "") + "</dd></div>";
+        return b.copy ? codeRow(L(b.label), L(b.value)) : "<div><dt>" + esc(L(b.label)) + "</dt><dd>" + esc(L(b.value)) + "</dd></div>";
       }).join("") + "</dl></div>";
     }
     if (L(D.inPerson)) cards += '<div class="card"><h3>' + esc(t("d.person")) + "</h3><p>" + esc(L(D.inPerson)) + "</p></div>";
@@ -741,22 +763,22 @@
     html += '<section id="yojana"><h2>' + esc(t("d.yojana")) + '</h2><p class="measure">' + esc(t("d.yojana_p")) + '</p><a class="btn btn-line" href="yojana.html">' + esc(t("d.yojana_btn")) + "</a></section>";
 
     var P = vis(window.PUNYARJAK).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    if (P.length) {
-      html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + "</h2>" +
-        '<div class="pfilter" role="group" aria-label="' + esc(t("d.punya")) + '">' +
-        '<button class="pf" type="button" data-k="all" aria-pressed="true">' + esc(t("d.col_kind_all")) + "</button>" +
-        '<button class="pf" type="button" data-k="saptahik" aria-pressed="false"><i class="dot dot-saptahik"></i>' + esc(t("kind.saptahik")) + "</button>" +
-        '<button class="pf" type="button" data-k="masik" aria-pressed="false"><i class="dot dot-masik"></i>' + esc(t("kind.masik")) + "</button>" +
-        '</div><div id="punya-body"></div></section>';
-    }
+    html += '<section id="punyarjak"><h2>' + esc(t("d.punya")) + "</h2>" +
+      (P.length
+        ? '<div class="pfilter" role="group" aria-label="' + esc(t("d.punya")) + '">' +
+          '<button class="pf" type="button" data-k="all" aria-pressed="true">' + esc(t("d.col_kind_all")) + "</button>" +
+          '<button class="pf" type="button" data-k="saptahik" aria-pressed="false"><i class="dot dot-saptahik"></i>' + esc(t("kind.saptahik")) + "</button>" +
+          '<button class="pf" type="button" data-k="masik" aria-pressed="false"><i class="dot dot-masik"></i>' + esc(t("kind.masik")) + "</button>" +
+          '</div><div id="punya-body"></div>'
+        : '<p class="empty">' + esc(t("empty.punya")) + "</p>") + "</section>";
     html += '<p class="thanks">' + esc(t("d.thanks")) + "</p>";
     var DR = vis(window.DRAVYA).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    if (DR.length) {
-      html = html.replace('<section id="yojana">', '<section id="dravya"><h2>' + esc(t("d.dravya")) + '</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) +
+    html = html.replace('<section id="yojana">', '<section id="dravya"><h2>' + esc(t("d.dravya")) + "</h2>" + (DR.length
+      ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">' + esc(t("d.col_date")) +
         '</th><th scope="col">' + esc(t("d.col_donor")) + "</th></tr></thead><tbody>" + DR.map(function (p) {
           return "<tr><td>" + esc(longDate(p.date)) + "</td><td>" + esc(L(p.name)) + "</td></tr>";
-        }).join("") + '</tbody></table></div></section><section id="yojana">');
-    }
+        }).join("") + "</tbody></table></div>"
+      : '<p class="empty">' + esc(t("empty.dravya")) + "</p>") + '</section><section id="yojana">');
     host.innerHTML = html;
 
     if (P.length) {
@@ -834,26 +856,13 @@
         return '<div class="card"><h3>' + esc(L(h.title)) + "</h3><p>" + esc(L(h.text)) + "</p></div>";
       }).join("") + "</div></section>";
     }
-    var soc = socialList();
-    html += '<section id="follow"><h2>' + esc(t("v.follow")) + '</h2><div class="btn-row">' + soc.map(function (s) {
-      return s.url
-        ? '<a class="btn btn-line" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>"
-        : '<span class="btn btn-line off" aria-disabled="true">' + esc(s.label) + "</span>";
-    }).join("") + "</div></section>";
     host.innerHTML = html;
   }
 
-  /* ---------- home: connect ---------- */
-  function renderConnect() {
-    var sec = document.getElementById("home-connect-section"); if (!sec) return;
-    var soc = socialList();
-    sec.hidden = !soc.some(function (s) { return s.url; });
-    put("home-connect", '<div class="btn-row">' + soc.map(function (s, i) {
-      return s.url
-        ? '<a class="btn ' + (i === 0 ? "btn-primary" : "btn-line") + '" href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>"
-        : '<span class="btn btn-line off" aria-disabled="true">' + esc(s.label) + "</span>";
-    }).join("") + "</div>");
-  }
+  /* ---------- home: connect ----------
+     Removed: the Home page no longer has its own "Follow us" section.
+     The footer's social icons (always visible) do this job on every page. */
+  function renderConnect() {}
 
   /* ---------- go ---------- */
   function render() {

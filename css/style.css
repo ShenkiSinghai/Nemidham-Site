@@ -55,12 +55,16 @@ p { margin: 0 0 1em; }
 /* ---------- Header and menu ---------- */
 #site-top { position: sticky; top: 0; z-index: 60; }
 header.site { position: relative; z-index: 50; background: rgba(250, 250, 248, .96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+/* The header gets a little more room than the page content, so a long mandir name
+   and the full menu can share one row without crowding each other. */
+header.site .wrap { max-width: calc(var(--wrap) + 200px); }
 .bar { display: flex; align-items: center; gap: 12px; min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); min-width: 0; }
 .mark { width: 42px; height: 42px; border-radius: 50%; background: var(--ink); color: var(--gold-soft); display: grid; place-items: center; font-family: var(--serif); font-size: 1.35rem; flex: none; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
-.brand-text strong { font-family: var(--serif); font-size: 1.05rem; }
-.brand-text small { color: var(--muted); font-size: .85rem; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.22; min-width: 0; }
+.brand-text strong { font-family: var(--serif); font-size: clamp(.8rem, 1.7vw, .98rem); font-weight: 600; white-space: nowrap; }
+.brand-text small { color: var(--muted); font-size: .82rem; }
+@media (max-width: 900px) { .brand-text strong { white-space: normal; } }
 .bar-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .lang { background: #fff; border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 16px; min-height: 44px; font-family: var(--sans); font-size: .98rem; font-weight: 600; color: var(--ink-2); cursor: pointer; }
 .lang:hover { border-color: var(--gold); color: var(--ink); }
@@ -86,7 +90,7 @@ li.open > .sub-toggle .caret { transform: rotate(225deg); margin-top: 4px; }
 .sub { display: none; padding-left: 14px; }
 li.open > .sub { display: block; }
 
-@media (min-width: 1120px) {
+@media (min-width: 1230px) {
   .nav-toggle { display: none; }
   .bar-right { margin-left: 0; }
   nav#nav { display: block; position: static; background: none; border: 0; padding: 0; max-height: none; overflow: visible; margin-left: auto; }
@@ -230,14 +234,22 @@ dialog.lightbox::backdrop { background: rgba(8, 14, 28, .92); }
 /* ---------- Daan & Contact ---------- */
 .cards { display: grid; gap: 18px; }
 @media (min-width: 800px) { .cards { grid-template-columns: repeat(2, 1fr); } .cards.three { grid-template-columns: repeat(3, 1fr); } }
-.card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px; min-width: 0; }
 .card h2, .card h3 { margin-bottom: .4em; }
 .qr { width: 200px; height: 200px; object-fit: contain; border: 1px solid var(--line); border-radius: 12px; padding: 8px; background: #fff; margin-bottom: 14px; }
 .rows { margin: 0; }
-.rows div { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-.rows div:last-child { border-bottom: 0; }
-.rows dt { color: var(--muted); font-size: .95rem; }
-.rows dd { margin: 0; font-weight: 600; word-break: break-word; display: flex; gap: 10px; align-items: center; justify-content: flex-end; text-align: right; min-width: 0; }
+.rows > div { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); flex-wrap: nowrap; }
+.rows > div:last-child { border-bottom: 0; }
+.rows dt { color: var(--muted); font-size: .95rem; flex: none; }
+.rows dd { margin: 0; font-weight: 600; word-break: break-word; display: flex; gap: 10px; align-items: center; justify-content: flex-end; text-align: right; min-width: 0; flex: 1 1 auto; }
+/* A row with a Copy button (UPI ID, account number, IFSC): the code itself never wraps onto
+   a second line. If the card is too narrow, the code scrolls sideways instead of breaking. */
+.coderow { align-items: flex-start !important; min-width: 0; }
+.coderow dd { flex-wrap: nowrap; min-width: 0; }
+.coderow code { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .92rem; white-space: nowrap; overflow-x: auto; min-width: 0; flex: 1 1 auto; scrollbar-width: thin; }
+.card-upi { grid-column: 1 / -1; }
+.card-upi .rows { max-width: 440px; }
+.coderow code { font-size: .86rem; }
 .copy { flex: none; white-space: nowrap; background: var(--mist); border: 0; border-radius: 999px; padding: 4px 12px; font-size: .85rem; cursor: pointer; color: var(--ink-2); font-family: var(--sans); font-weight: 600; }
 .copy:hover { background: var(--line); }
 .note { background: #fff8e6; border: 1px solid #ecd9a6; border-radius: 12px; padding: 14px 18px; color: #5b4306; }

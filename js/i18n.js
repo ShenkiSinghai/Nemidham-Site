@@ -76,11 +76,11 @@ window.UI = {
     "d.yojana_p": "किसी ख़ास योजना के लिए दान करना चाहते हैं, तो दान देते समय हमें बताएं, ताकि राशि उसी में लगे।",
     "d.yojana_btn": "योजनाएं देखें",
     "d.punya": "शांतिधारा पुण्यार्जक", "d.col_date": "तारीख", "d.col_kind": "प्रकार", "d.col_name": "पुण्यार्जक",
-    "d.col_kind_all": "सभी", "empty.punya": "अभी कोई पुण्यार्जक नहीं जोड़े गए हैं।",
+    "d.col_kind_all": "सभी", "empty.punya": "अभी कोई पुण्यार्जक नहीं जोड़े गए हैं।", "empty.dravya": "अभी किसी दानदाता का नाम नहीं जोड़ा गया है।",
     "kind.saptahik": "साप्ताहिक शांतिधारा", "kind.masik": "मासिक शांतिधारा",
     "d.soon": "दान की जानकारी जल्द जोड़ी जाएगी। कृपया मंदिर कार्यालय से संपर्क करें।",
     "d.trust": "ट्रस्ट और 80G की जानकारी", "d.trust_soon": "ट्रस्ट और 80G की जानकारी जल्द जोड़ी जाएगी।",
-    "d.thanks": "आपके दान के लिए हृदय से धन्यवाद। जय जिनेन्द्र।",
+    "d.thanks": "आपके दान के लिए हृदय से धन्यवाद। बहुत-बहुत अनुमोदना। जय जिनेन्द्र।",
     "copy": "कॉपी", "copied": "कॉपी हो गया", "copyfail": "चुनकर कॉपी करें",
 
     "v.map": "नक्शा", "v.open": "Google Maps में खोलें", "v.nomap": "नक्शा जल्द जोड़ा जाएगा।",
@@ -93,7 +93,7 @@ window.UI = {
 
     "f.timings": "रोज़ का समय", "f.pages": "पेज",
     "f.legal": "जय जिनेन्द्र। © {year} {name}, {place}।",
-    "f.visitors": "वेबसाइट विज़िटर संख्या", "f.by": "वेबसाइट: {name}"
+    "f.visitors": "वेबसाइट विज़िटर संख्या", "f.by": "वेबसाइट निर्माता: {name}"
   },
 
   en: {
@@ -170,11 +170,11 @@ window.UI = {
     "d.yojana_p": "If you want your daan to go to one particular yojana, please tell us when you give, so it is used for that.",
     "d.yojana_btn": "See Yojanayen",
     "d.punya": "Shantidhara punyarjak", "d.col_date": "Date", "d.col_kind": "Type", "d.col_name": "Punyarjak",
-    "d.col_kind_all": "All", "empty.punya": "No punyarjak has been added yet.",
+    "d.col_kind_all": "All", "empty.punya": "No punyarjak has been added yet.", "empty.dravya": "No donor names have been added yet.",
     "kind.saptahik": "Saptahik Shantidhara", "kind.masik": "Masik Shantidhara",
     "d.soon": "Daan details will be added soon. Please contact the mandir office.",
     "d.trust": "Trust and 80G details", "d.trust_soon": "Trust and 80G details will be added soon.",
-    "d.thanks": "Heartfelt thanks for your daan. Jai Jinendra.",
+    "d.thanks": "Heartfelt thanks for your daan. Many, many anumodana. Jai Jinendra.",
     "copy": "Copy", "copied": "Copied", "copyfail": "Select and copy",
 
     "v.map": "Map", "v.open": "Open in Google Maps", "v.nomap": "The map will be added soon.",
